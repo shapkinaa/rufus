@@ -428,7 +428,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
                     return true;
                 }
 
@@ -469,7 +469,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
 
                     return true;
                 }
@@ -510,7 +510,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
                 }
@@ -576,7 +577,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
                 }
@@ -642,9 +644,138 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
+                }
+
+                if state.config.keyboard_cfg.move_fs_item.is_pressed(key_evt) && props.is_focused {
+                    if tab_side == PanelSide::Right {
+                        for item in tab_state.selected.iter() {
+                            match item {
+                                FileSystemItem::Directory(dir) => {
+                                    let name = dir.get_name();
+                                    let mut to_path = state.left_panel.tabs
+                                        [state.left_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    if dir.get_path() == to_path {
+                                        store.dispatch(FileManagerActions::App(
+                                            AppAction::ShowModal(ModalType::ErrorModal(format!(
+                                                "Can't move \n {} \n into \n {}",
+                                                dir.get_path().to_str().unwrap_or(""),
+                                                to_path.to_str().unwrap_or("")
+                                            ))),
+                                        ));
+                                    } else {
+                                        to_path.push(name);
+                                        store.dispatch(FileManagerActions::Directory(
+                                            DirectoryAction::Move {
+                                                from: PanelInfo {
+                                                    path: dir.get_path(),
+                                                    tab: state.right_panel.current_tab,
+                                                    side: PanelSide::Right,
+                                                },
+                                                to: PanelInfo {
+                                                    path: to_path,
+                                                    tab: state.left_panel.current_tab,
+                                                    side: PanelSide::Left,
+                                                },
+                                            },
+                                        ));
+                                    }
+                                }
+                                FileSystemItem::File(file) => {
+                                    let name = file.get_name();
+                                    let mut to_path = state.left_panel.tabs
+                                        [state.left_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    to_path.push(name);
+                                    store.dispatch(FileManagerActions::File(FileAction::Move {
+                                        from: PanelInfo {
+                                            path: file.get_path(),
+                                            tab: state.right_panel.current_tab,
+                                            side: PanelSide::Right,
+                                        },
+                                        to: PanelInfo {
+                                            path: to_path,
+                                            tab: state.left_panel.current_tab,
+                                            side: PanelSide::Left,
+                                        },
+                                    }));
+                                }
+                                _ => {}
+                            };
+                        }
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
+
+                        return true;
+                    } else if tab_side == PanelSide::Left {
+                        for item in tab_state.selected.iter() {
+                            match item {
+                                FileSystemItem::Directory(dir) => {
+                                    let name = dir.get_name();
+                                    let mut to_path = state.right_panel.tabs
+                                        [state.right_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    if dir.get_path() == to_path {
+                                        store.dispatch(FileManagerActions::App(
+                                            AppAction::ShowModal(ModalType::ErrorModal(format!(
+                                                "Can't move \n {} \n into \n {}",
+                                                dir.get_path().to_str().unwrap_or(""),
+                                                to_path.to_str().unwrap_or("")
+                                            ))),
+                                        ));
+                                    } else {
+                                        to_path.push(name);
+                                        store.dispatch(FileManagerActions::Directory(
+                                            DirectoryAction::Move {
+                                                from: PanelInfo {
+                                                    path: dir.get_path(),
+                                                    tab: state.left_panel.current_tab,
+                                                    side: PanelSide::Left,
+                                                },
+                                                to: PanelInfo {
+                                                    path: to_path,
+                                                    tab: state.right_panel.current_tab,
+                                                    side: PanelSide::Right,
+                                                },
+                                            },
+                                        ));
+                                    }
+                                }
+                                FileSystemItem::File(file) => {
+                                    let name = file.get_name();
+                                    let mut to_path = state.right_panel.tabs
+                                        [state.right_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    to_path.push(name);
+                                    store.dispatch(FileManagerActions::File(FileAction::Move {
+                                        from: PanelInfo {
+                                            path: file.get_path(),
+                                            tab: state.left_panel.current_tab,
+                                            side: PanelSide::Left,
+                                        },
+                                        to: PanelInfo {
+                                            path: to_path,
+                                            tab: state.right_panel.current_tab,
+                                            side: PanelSide::Right,
+                                        },
+                                    }));
+                                }
+                                _ => {}
+                            };
+                        }
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
+
+                        return true;
+                    }
                 }
 
                 if state.config.keyboard_cfg.copy_to_left.is_pressed(key_evt)
@@ -698,7 +829,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
                 }
@@ -754,11 +886,119 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
                 }
 
+                if state.config.keyboard_cfg.copy_fs_item.is_pressed(key_evt) && props.is_focused {
+                    if tab_side == PanelSide::Right {
+                        for item in tab_state.selected.iter() {
+                            match item {
+                                FileSystemItem::Directory(dir) => {
+                                    let name = dir.get_name();
+                                    let mut to_path = state.left_panel.tabs
+                                        [state.left_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    to_path.push(name);
+                                    store.dispatch(FileManagerActions::Directory(
+                                        DirectoryAction::Copy {
+                                            from: PanelInfo {
+                                                path: dir.get_path(),
+                                                tab: state.right_panel.current_tab,
+                                                side: PanelSide::Right,
+                                            },
+                                            to: PanelInfo {
+                                                path: to_path,
+                                                tab: state.left_panel.current_tab,
+                                                side: PanelSide::Left,
+                                            },
+                                        },
+                                    ));
+                                }
+                                FileSystemItem::File(file) => {
+                                    let name = file.get_name();
+                                    let mut to_path = state.left_panel.tabs
+                                        [state.left_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    to_path.push(name);
+                                    store.dispatch(FileManagerActions::File(FileAction::Copy {
+                                        from: PanelInfo {
+                                            path: file.get_path(),
+                                            tab: state.right_panel.current_tab,
+                                            side: PanelSide::Right,
+                                        },
+                                        to: PanelInfo {
+                                            path: to_path,
+                                            tab: state.left_panel.current_tab,
+                                            side: PanelSide::Left,
+                                        },
+                                    }));
+                                }
+                                _ => {}
+                            };
+                        }
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
+
+                        return true;
+                    } else if tab_side == PanelSide::Left {
+                        for item in tab_state.selected.iter() {
+                            match item {
+                                FileSystemItem::Directory(dir) => {
+                                    let name = dir.get_name();
+                                    let mut to_path = state.right_panel.tabs
+                                        [state.right_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    to_path.push(name);
+                                    store.dispatch(FileManagerActions::Directory(
+                                        DirectoryAction::Copy {
+                                            from: PanelInfo {
+                                                path: dir.get_path(),
+                                                tab: state.left_panel.current_tab,
+                                                side: PanelSide::Left,
+                                            },
+                                            to: PanelInfo {
+                                                path: to_path,
+                                                tab: state.right_panel.current_tab,
+                                                side: PanelSide::Right,
+                                            },
+                                        },
+                                    ));
+                                }
+                                FileSystemItem::File(file) => {
+                                    let name = file.get_name();
+                                    let mut to_path = state.right_panel.tabs
+                                        [state.right_panel.current_tab]
+                                        .path
+                                        .clone();
+                                    to_path.push(name);
+                                    store.dispatch(FileManagerActions::File(FileAction::Copy {
+                                        from: PanelInfo {
+                                            path: file.get_path(),
+                                            tab: state.left_panel.current_tab,
+                                            side: PanelSide::Left,
+                                        },
+                                        to: PanelInfo {
+                                            path: to_path,
+                                            tab: state.right_panel.current_tab,
+                                            side: PanelSide::Right,
+                                        },
+                                    }));
+                                }
+                                _ => {}
+                            };
+                        }
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
+
+                        return true;
+                    }
+                }
                 if tab_state.selected.len() == 1 || tab_state.tab_state.selected().is_none() {
                     if let Some(current_item) = self.current_item() {
                         if state.config.keyboard_cfg.rename.is_pressed(key_evt) && props.is_focused

@@ -227,7 +227,7 @@ impl KeyboardConfig {
                     }
                 }
 
-                if let Some(move_fs_item) = keyboard_cfg.get("move") {
+                if let Some(move_fs_item) = keyboard_cfg.get("move_fs_item") {
                     if let Value::Table(key_binding) = move_fs_item {
                         let key_code = map_key(key_binding["key"].as_str().unwrap());
                         let modifier = if key_binding.contains_key("modifier") {
@@ -521,7 +521,9 @@ impl Default for KeyboardConfig {
 }
 
 fn map_key(key: &str) -> KeyCode {
-    match key.to_lowercase().as_str() {
+    // comment, because i want capital char would be hot key
+    //match key.to_lowercase().as_str() {
+    match key {
         "backspace" => KeyCode::Backspace,
         "enter" => KeyCode::Enter,
         "left" => KeyCode::Left,
