@@ -29,10 +29,10 @@ light_white = "White"
 quit = { key = "q" }
 
 # focus_left_panel = { key = "h" }
-focus_left_panel = { key = "1" }
+focus_left_panel = { key = "1", modifier = "C" }
 
 # focus_right_panel = { key = "l" }
-focus_right_panel = { key = "2" }
+focus_right_panel = { key = "2", modifier = "C" }
 
 move_down = { key = "j" }
 move_up = { key = "k" }
@@ -41,26 +41,31 @@ move_up = { key = "k" }
 # prev_tab = { key = "T" }
 
 close = { key = "q" }
-open = { key = "o" }
+open = { key = "l" }
 open_as_tab = { key = "o", modifier = "C" }
-navigate_up = { key = "backspace" }
+# navigate_up = { key = "backspace" }
+navigate_up = { key = "h" }
 delete = { key = "d", modifier = "C" }
-move_left = { key = "h", modifier = "C" }
-move_right = { key = "l", modifier = "C" }
+# move_left = { key = "h", modifier = "C" }
+# move_right = { key = "l", modifier = "C" }
+move = { key = "m", modifier = "C" }
 rename = { key = "r", modifier = "C" }
 create = { key = "c", modifier = "C" }
 accept = { key = "enter" }
-copy_to_left = { key = "z", modifier = "C" }
-copy_to_right = { key = "x", modifier = "C" }
+# copy_to_left = { key = "z", modifier = "C" }
+# copy_to_right = { key = "x", modifier = "C" }
+copy = { key = "m" }
 # search_in_panel = { key = "s", modifier = "C" }
 search_in_panel = { key = "/" }
 select_prev = { key = "j", modifier = "C" }
 select_next = { key = "k", modifier = "C" }
 
+change_focus_panels = { key = "tab" }
+
 # go to home
-#command_1 = { key = "H" }
+command_1 = { key = "H" }
 # go to projects
-#command_2 = { key = "P" }
+# command_2 = { key = "P" }
 
 # [icons_dir]
 # ".git" = ""
@@ -93,5 +98,22 @@ select_next = { key = "k", modifier = "C" }
 # default = ""
 
 [file_associated_programs]
-default = "hx"
+default = "open"
+png = "open"
+md = "hx"
+rs = "hx"
+php = "hx"
+go = "hx"
+c = "hx"
+cpp = "hx"
 
+[hotkey_commands_programs]
+command_1 = "/Users/shapkin"
+command_2 = "/Users/shapkin/projects"
+command_3 = "/Users/shapkin"
+command_4 = "/Users/shapkin"
+command_5 = "/Users/shapkin"
+command_6 = "/Users/shapkin"
+command_7 = "/Users/shapkin"
+command_8 = "/Users/shapkin"
+command_9 = "/Users/shapkin"

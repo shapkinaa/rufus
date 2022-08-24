@@ -19,14 +19,27 @@ pub struct KeyboardConfig {
     pub delete: KeyBinding,
     pub move_left: KeyBinding,
     pub move_right: KeyBinding,
+    pub move_fs_item: KeyBinding,
     pub rename: KeyBinding,
     pub create: KeyBinding,
     pub accept: KeyBinding,
     pub copy_to_left: KeyBinding,
     pub copy_to_right: KeyBinding,
+    pub copy_fs_item: KeyBinding,
     pub search_in_panel: KeyBinding,
     pub select_prev: KeyBinding,
     pub select_next: KeyBinding,
+    pub change_focus_panels: KeyBinding,
+
+    pub command_1: KeyBinding,
+    pub command_2: KeyBinding,
+    pub command_3: KeyBinding,
+    pub command_4: KeyBinding,
+    pub command_5: KeyBinding,
+    pub command_6: KeyBinding,
+    pub command_7: KeyBinding,
+    pub command_8: KeyBinding,
+    pub command_9: KeyBinding,
 }
 
 impl KeyboardConfig {
@@ -214,6 +227,18 @@ impl KeyboardConfig {
                     }
                 }
 
+                if let Some(move_fs_item) = keyboard_cfg.get("move") {
+                    if let Value::Table(key_binding) = move_fs_item {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.move_fs_item = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
                 if let Some(rename) = keyboard_cfg.get("rename") {
                     if let Value::Table(key_binding) = rename {
                         let key_code = map_key(key_binding["key"].as_str().unwrap());
@@ -279,6 +304,18 @@ impl KeyboardConfig {
                     }
                 }
 
+                if let Some(copy_fs_item) = keyboard_cfg.get("copy_fs_item") {
+                    if let Value::Table(key_binding) = copy_fs_item {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.copy_fs_item = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
                 if let Some(search_in_panel) = keyboard_cfg.get("search_in_panel") {
                     if let Value::Table(key_binding) = search_in_panel {
                         let key_code = map_key(key_binding["key"].as_str().unwrap());
@@ -317,6 +354,126 @@ impl KeyboardConfig {
                         self.select_next = KeyBinding::with_modifiers(key_code, modifier);
                     }
                 }
+                if let Some(change_focus_panels) = keyboard_cfg.get("change_focus_panels") {
+                    if let Value::Table(key_binding) = change_focus_panels {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.change_focus_panels = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_1") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_1 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_2") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_2 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_3") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_3 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_4") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_4 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_5") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_5 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_6") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_6 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_7") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_7 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_8") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_8 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("command_9") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.command_9 = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
             }
         }
     }
@@ -339,14 +496,26 @@ impl Default for KeyboardConfig {
             delete: KeyBinding::with_modifiers(KeyCode::Char('d'), KeyModifiers::CONTROL),
             move_left: KeyBinding::with_modifiers(KeyCode::Char('h'), KeyModifiers::CONTROL),
             move_right: KeyBinding::with_modifiers(KeyCode::Char('l'), KeyModifiers::CONTROL),
+            move_fs_item: KeyBinding::with_modifiers(KeyCode::Char('m'), KeyModifiers::CONTROL),
             rename: KeyBinding::with_modifiers(KeyCode::Char('r'), KeyModifiers::CONTROL),
             create: KeyBinding::with_modifiers(KeyCode::Char('c'), KeyModifiers::CONTROL),
             accept: KeyBinding::new(KeyCode::Enter),
             copy_to_right: KeyBinding::with_modifiers(KeyCode::Char('x'), KeyModifiers::CONTROL),
             copy_to_left: KeyBinding::with_modifiers(KeyCode::Char('z'), KeyModifiers::CONTROL),
+            copy_fs_item: KeyBinding::new(KeyCode::Char('m')),
             search_in_panel: KeyBinding::with_modifiers(KeyCode::Char('s'), KeyModifiers::CONTROL),
             select_prev: KeyBinding::with_modifiers(KeyCode::Char('k'), KeyModifiers::CONTROL),
             select_next: KeyBinding::with_modifiers(KeyCode::Char('j'), KeyModifiers::CONTROL),
+            change_focus_panels: KeyBinding::new(KeyCode::Tab),
+            command_1: KeyBinding::new(KeyCode::Char('1')),
+            command_2: KeyBinding::new(KeyCode::Char('2')),
+            command_3: KeyBinding::new(KeyCode::Char('3')),
+            command_4: KeyBinding::new(KeyCode::Char('4')),
+            command_5: KeyBinding::new(KeyCode::Char('5')),
+            command_6: KeyBinding::new(KeyCode::Char('6')),
+            command_7: KeyBinding::new(KeyCode::Char('7')),
+            command_8: KeyBinding::new(KeyCode::Char('8')),
+            command_9: KeyBinding::new(KeyCode::Char('9')),
         }
     }
 }

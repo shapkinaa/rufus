@@ -249,7 +249,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
 
                     return result;
                 }
-
                 if state
                     .config
                     .keyboard_cfg
@@ -270,6 +269,22 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                     .is_pressed(key_evt)
                 {
                     store.dispatch(FileManagerActions::App(AppAction::FocusRight));
+                    self.map_state(store);
+                    store.clean();
+
+                    return true;
+                }
+                if state
+                    .config
+                    .keyboard_cfg
+                    .change_focus_panels
+                    .is_pressed(key_evt)
+                {
+                    if state.left_panel.is_focused {
+                        store.dispatch(FileManagerActions::App(AppAction::FocusRight));
+                    } else {
+                        store.dispatch(FileManagerActions::App(AppAction::FocusLeft));
+                    }
                     self.map_state(store);
                     store.clean();
 

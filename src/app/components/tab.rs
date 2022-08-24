@@ -246,6 +246,160 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
 
                     return true;
                 }
+
+                if state.config.keyboard_cfg.command_1.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_1"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_2.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_2"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_3.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_3"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_4.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_4"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_5.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_5"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_6.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_6"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_7.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_7"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_8.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_8"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
+                if state.config.keyboard_cfg.command_9.is_pressed(key_evt) && props.is_focused {
+                    let path = state
+                        .config
+                        .hotkey_commands_programs
+                        .get_path(String::from("command_9"));
+                    if path != "" {
+                        store.dispatch(FileManagerActions::Directory(DirectoryAction::Open {
+                            panel: PanelInfo {
+                                path: path.into(),
+                                tab: tab_idx,
+                                side: tab_side.clone(),
+                            },
+                            in_new_tab: false,
+                        }));
+                    }
+                    return true;
+                }
                 if state.config.keyboard_cfg.open_as_tab.is_pressed(key_evt) && props.is_focused {
                     for item in tab_state.selected.iter() {
                         match item {
@@ -723,26 +877,27 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                 };
 
                 let block = Block::default()
-                    .title(/*if show_icons {
+                    .title(
+                        /*if show_icons {
+                            Spans::from(vec![
+                                Span::from("| "),
+                                Span::from(state.icon),
+                                Span::from(" "),
+                                Span::from(state.name),
+                                Span::from(" |"),
+                            ])
+                        } else {
+                            Spans::from(vec![
+                                Span::from("| "),
+                                Span::from(state.name),
+                                Span::from(" |"),
+                            ])
+                        }*/
                         Spans::from(vec![
                             Span::from("| "),
-                            Span::from(state.icon),
-                            Span::from(" "),
                             Span::from(state.name),
                             Span::from(" |"),
-                        ])
-                    } else {
-                        Spans::from(vec![
-                            Span::from("| "),
-                            Span::from(state.name),
-                            Span::from(" |"),
-                        ])
-                    }*/
-                    Spans::from(vec![
-                        Span::from("| "),
-                        Span::from(state.name),
-                        Span::from(" |"),
-                    ])
+                        ]),
                     )
                     .borders(Borders::ALL)
                     .border_style(border_style)

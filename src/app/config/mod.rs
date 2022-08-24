@@ -4,12 +4,13 @@ use crate::core::config::CoreConfig;
 use std::path::Path;
 
 use self::{
-    icon_cfg::IconsConfig, keyboard_cfg::KeyboardConfig,
+    commands::HotkeyCommandsPrograms, icon_cfg::IconsConfig, keyboard_cfg::KeyboardConfig,
     program_associations::FileAssociatedPrograms,
 };
 
 use super::file_system::{functions::expand_if_contains_tilde, FileSystem};
 
+pub mod commands;
 pub mod icon_cfg;
 pub mod keyboard_cfg;
 pub mod program_associations;
@@ -20,6 +21,7 @@ pub struct Config {
     pub keyboard_cfg: KeyboardConfig,
     pub icons: IconsConfig,
     pub file_associated_programs: FileAssociatedPrograms,
+    pub hotkey_commands_programs: HotkeyCommandsPrograms,
 }
 
 impl Default for Config {
@@ -29,6 +31,7 @@ impl Default for Config {
             keyboard_cfg: KeyboardConfig::default(),
             icons: IconsConfig::default(),
             file_associated_programs: FileAssociatedPrograms::default(),
+            hotkey_commands_programs: HotkeyCommandsPrograms::default(),
         }
     }
 }
@@ -46,6 +49,8 @@ impl Config {
                 cfg.file_associated_programs
                     .update_from_file(&toml_mapped_values);
                 cfg.core_cfg.update_from_file(&toml_mapped_values);
+                cfg.hotkey_commands_programs
+                    .update_from_file(&toml_mapped_values);
             }
         }
         cfg

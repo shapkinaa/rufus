@@ -181,7 +181,22 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                     }));
                     return true;
                 }
-
+                /*
+                //Andrey Shapkin
+                if state
+                    .config
+                    .keyboard_cfg
+                    .change_focus_panels
+                    .is_pressed(key_evt)
+                    && props.is_focused
+                    && props.tabs.len() > 1
+                {
+                    store.dispatch(FileManagerActions::Panel(PanelAction::Next {
+                        panel: panel_side,
+                    }));
+                    return true;
+                }
+                */
                 if state.config.keyboard_cfg.close.is_pressed(key_evt)
                     && props.is_focused
                     && props.tabs.len() > 1

@@ -34,6 +34,7 @@ In order to get icons please install nerd font in your system (on screen Jetbrai
 
 - `h` - focus left panel
 - `l` - focus right panel
+- `tab` - change focus of panel
 - `j` - next item
 - `k` - prev item
 - `ctrl + r` - open rename modal
