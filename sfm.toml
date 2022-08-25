@@ -42,30 +42,30 @@ move_up = { key = "k" }
 
 close = { key = "q" }
 open = { key = "l" }
-open_as_tab = { key = "o", modifier = "C" }
+open_as_tab = { key = "L" }
 # navigate_up = { key = "backspace" }
 navigate_up = { key = "h" }
-delete = { key = "d", modifier = "C" }
+delete = { key = "d" }
 # move_left = { key = "h", modifier = "C" }
 # move_right = { key = "l", modifier = "C" }
-move = { key = "m", modifier = "C" }
-rename = { key = "r", modifier = "C" }
-create = { key = "c", modifier = "C" }
+move_fs_item = { key = "c" }
+rename = { key = "r" }
+create = { key = "n" }
 accept = { key = "enter" }
 # copy_to_left = { key = "z", modifier = "C" }
 # copy_to_right = { key = "x", modifier = "C" }
-copy = { key = "m" }
+copy_fs_item = { key = "y" }
 # search_in_panel = { key = "s", modifier = "C" }
 search_in_panel = { key = "/" }
-select_prev = { key = "j", modifier = "C" }
-select_next = { key = "k", modifier = "C" }
+select_prev = { key = "X", modifier = "S" }
+select_next = { key = "x" }
 
 change_focus_panels = { key = "tab" }
 
 # go to home
-command_1 = { key = "H" }
+command_1 = { key = "H", modifier = "S" }
 # go to projects
-# command_2 = { key = "P" }
+command_2 = { key = "P", modifier = "S" }
 
 # [icons_dir]
 # ".git" = ""
