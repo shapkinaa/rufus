@@ -11,7 +11,6 @@ use tui::{
 use crate::{
     app::{
         actions::{FileManagerActions, PanelAction, PanelSide},
-        components::tab::TabStyle,
         config::icon_cfg::IconsConfig,
         file_system::FileSystem,
         state::{AppState, PanelState},
@@ -135,7 +134,7 @@ impl<TFileSystem: Clone + Default + Debug + FileSystem> PanelComponent<TFileSyst
                 icons.use_icons,
                 core.list_arrow.clone(),
             )),
-            Some(TabStyle::new_style_from_config(core)),
+            None,
         );
 
         PanelComponent::new(panel_props, state, tab)

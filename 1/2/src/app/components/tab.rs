@@ -20,7 +20,6 @@ use crate::{
         state::{AppState, ModalType, TabState},
     },
     core::{
-        config::CoreConfig,
         events::Event,
         store::Store,
         ui::{component::Component, component_base::ComponentBase},
@@ -75,27 +74,6 @@ pub struct TabStyle {
     active_border_color: Color,
     selected_element_background: Color,
     selected_element_foreground: Color,
-
-    pub normal_dir_background: Color,
-    pub cursor_dir_background: Color,
-    pub select_dir_background: Color,
-    pub normal_dir_foreground: Color,
-    pub cursor_dir_foreground: Color,
-    pub select_dir_foreground: Color,
-
-    pub normal_file_background: Color,
-    pub cursor_file_background: Color,
-    pub select_file_background: Color,
-    pub normal_file_foreground: Color,
-    pub cursor_file_foreground: Color,
-    pub select_file_foreground: Color,
-
-    pub normal_link_background: Color,
-    pub cursor_link_background: Color,
-    pub select_link_background: Color,
-    pub normal_link_foreground: Color,
-    pub cursor_link_foreground: Color,
-    pub select_link_foreground: Color,
 }
 
 impl Default for TabStyle {
@@ -104,55 +82,6 @@ impl Default for TabStyle {
             active_border_color: Color::Blue,
             selected_element_background: Color::Red,
             selected_element_foreground: Color::Black,
-
-            normal_dir_background: Color::Black,
-            cursor_dir_background: Color::Gray,
-            select_dir_background: Color::Green,
-            normal_dir_foreground: Color::White,
-            cursor_dir_foreground: Color::White,
-            select_dir_foreground: Color::Black,
-
-            normal_file_background: Color::Black,
-            cursor_file_background: Color::Gray,
-            select_file_background: Color::Green,
-            normal_file_foreground: Color::Gray,
-            cursor_file_foreground: Color::White,
-            select_file_foreground: Color::Black,
-
-            normal_link_background: Color::Black,
-            cursor_link_background: Color::Gray,
-            select_link_background: Color::Green,
-            normal_link_foreground: Color::Gray,
-            cursor_link_foreground: Color::White,
-            select_link_foreground: Color::Black,
-        }
-    }
-}
-
-impl TabStyle {
-    pub fn new_style_from_config(config: &CoreConfig) -> Self {
-        TabStyle {
-            active_border_color: Color::Blue,
-            selected_element_background: Color::Red,
-            selected_element_foreground: Color::Black,
-            normal_dir_background: config.color_scheme.normal_dir_background,
-            cursor_dir_background: config.color_scheme.cursor_dir_background,
-            select_dir_background: config.color_scheme.select_dir_background,
-            normal_dir_foreground: config.color_scheme.normal_dir_foreground,
-            cursor_dir_foreground: config.color_scheme.cursor_dir_foreground,
-            select_dir_foreground: config.color_scheme.select_dir_foreground,
-            normal_file_background: config.color_scheme.normal_file_background,
-            cursor_file_background: config.color_scheme.cursor_file_background,
-            select_file_background: config.color_scheme.select_file_background,
-            normal_file_foreground: config.color_scheme.normal_file_foreground,
-            cursor_file_foreground: config.color_scheme.cursor_file_foreground,
-            select_file_foreground: config.color_scheme.select_file_foreground,
-            normal_link_background: config.color_scheme.normal_link_background,
-            cursor_link_background: config.color_scheme.cursor_link_background,
-            select_link_background: config.color_scheme.select_link_background,
-            normal_link_foreground: config.color_scheme.normal_link_foreground,
-            cursor_link_foreground: config.color_scheme.cursor_link_foreground,
-            select_link_foreground: config.color_scheme.select_link_foreground,
         }
     }
 }
@@ -220,7 +149,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
             PanelSide::Left => state.left_panel.tabs[state.left_panel.current_tab].clone(),
             PanelSide::Right => state.right_panel.tabs[state.right_panel.current_tab].clone(),
         };
-
         if props.is_focused {
             if let Event::Keyboard(key_evt) = event {
                 if state.config.keyboard_cfg.close.is_pressed(key_evt)
@@ -500,6 +428,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
                     return true;
                 }
 
@@ -540,6 +469,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+
                     return true;
                 }
 
@@ -579,6 +510,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
                     store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
@@ -645,6 +577,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
                     store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
@@ -711,6 +644,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
                     store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
@@ -775,7 +709,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 _ => {}
                             };
                         }
-                        store.dispatch(FileManagerActions::Tab(TabAction::Next));
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                         return true;
                     } else if tab_side == PanelSide::Left {
@@ -836,7 +771,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 _ => {}
                             };
                         }
-                        store.dispatch(FileManagerActions::Tab(TabAction::Next));
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                         return true;
                     }
@@ -893,7 +829,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::Next));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
                 }
@@ -949,7 +886,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                             _ => {}
                         };
                     }
-                    store.dispatch(FileManagerActions::Tab(TabAction::Next));
+                    // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                    store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                     return true;
                 }
@@ -1003,6 +941,8 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 _ => {}
                             };
                         }
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                         return true;
                     } else if tab_side == PanelSide::Left {
@@ -1053,23 +993,11 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 _ => {}
                             };
                         }
+                        // store.dispatch(FileManagerActions::Tab(TabAction::ClearSelection));
+                        store.dispatch(FileManagerActions::Tab(TabAction::SelectNext));
 
                         return true;
                     }
-                }
-
-                if state
-                    .config
-                    .keyboard_cfg
-                    .print_test_info
-                    .is_pressed(key_evt)
-                    && props.is_focused
-                {
-                    println!("print_test_info");
-                    for item in tab_state.selected.iter() {
-                        println!("{:?}", item);
-                    }
-                    return true;
                 }
                 if tab_state.selected.len() == 1 || tab_state.tab_state.selected().is_none() {
                     if let Some(current_item) = self.current_item() {
@@ -1135,7 +1063,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 .iter()
                                 .any(|i| i.get_path() == item.get_path())
                             {
-                                /*
                                 ListItem::new(
                                     item.to_spans(area.unwrap_or(frame.size()), show_icons),
                                 )
@@ -1144,78 +1071,10 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                         .bg(self.style.selected_element_background)
                                         .fg(self.style.selected_element_foreground),
                                 )
-                                */
-                                match item {
-                                    FileSystemItem::Directory(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.cursor_dir_background)
-                                            .fg(self.style.cursor_dir_foreground),
-                                    ),
-                                    FileSystemItem::File(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.cursor_file_background)
-                                            .fg(self.style.cursor_file_foreground),
-                                    ),
-                                    FileSystemItem::Symlink(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.cursor_link_background)
-                                            .fg(self.style.cursor_link_foreground),
-                                    ),
-                                    FileSystemItem::Unknown => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.selected_element_background)
-                                            .fg(self.style.selected_element_foreground),
-                                    ),
-                                }
                             } else {
-                                /*
                                 ListItem::new(
                                     item.to_spans(area.unwrap_or(frame.size()), show_icons),
                                 )
-                                .style(Style::default())
-                                */
-                                match item {
-                                    FileSystemItem::Directory(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.normal_dir_background)
-                                            .fg(self.style.normal_dir_foreground),
-                                    ),
-                                    FileSystemItem::File(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.normal_file_background)
-                                            .fg(self.style.normal_file_foreground),
-                                    ),
-                                    FileSystemItem::Symlink(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.normal_link_background)
-                                            .fg(self.style.normal_link_foreground),
-                                    ),
-                                    FileSystemItem::Unknown => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(Style::default()),
-                                }
                             }
                         })
                         .collect()
@@ -1234,7 +1093,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 .iter()
                                 .any(|i| i.get_path() == item.get_path())
                             {
-                                /*
                                 ListItem::new(
                                     item.to_spans(area.unwrap_or(frame.size()), show_icons),
                                 )
@@ -1243,77 +1101,10 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                         .bg(self.style.selected_element_background)
                                         .fg(self.style.selected_element_foreground),
                                 )
-                                */
-                                match item {
-                                    FileSystemItem::Directory(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.cursor_dir_background)
-                                            .fg(self.style.cursor_dir_foreground),
-                                    ),
-                                    FileSystemItem::File(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.cursor_file_background)
-                                            .fg(self.style.cursor_file_foreground),
-                                    ),
-                                    FileSystemItem::Symlink(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.cursor_link_background)
-                                            .fg(self.style.cursor_link_foreground),
-                                    ),
-                                    FileSystemItem::Unknown => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.selected_element_background)
-                                            .fg(self.style.selected_element_foreground),
-                                    ),
-                                }
                             } else {
-                                /*
                                 ListItem::new(
                                     item.to_spans(area.unwrap_or(frame.size()), show_icons),
                                 )
-                                */
-                                match item {
-                                    FileSystemItem::Directory(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.normal_dir_background)
-                                            .fg(self.style.normal_dir_foreground),
-                                    ),
-                                    FileSystemItem::File(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.normal_file_background)
-                                            .fg(self.style.normal_file_foreground),
-                                    ),
-                                    FileSystemItem::Symlink(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.normal_link_background)
-                                            .fg(self.style.normal_link_foreground),
-                                    ),
-                                    FileSystemItem::Unknown => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(Style::default()),
-                                }
                             }
                         })
                         .collect()
@@ -1327,8 +1118,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
 
                 let block = Block::default()
                     .title(
-                        /*
-                            if show_icons {
+                        /*if show_icons {
                             Spans::from(vec![
                                 Span::from("| "),
                                 Span::from(state.icon),
@@ -1337,34 +1127,38 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 Span::from(" |"),
                             ])
                         } else {
-                                */
+                            Spans::from(vec![
+                                Span::from("| "),
+                                Span::from(state.name),
+                                Span::from(" |"),
+                            ])
+                        }*/
                         Spans::from(vec![
                             Span::from("| "),
                             Span::from(state.name),
                             Span::from(" |"),
-                        ]), // }
+                        ]),
                     )
                     .borders(Borders::ALL)
                     .border_style(border_style)
-                    .border_type(tui::widgets::BorderType::Rounded)
+                    .border_type(tui::widgets::BorderType::Thick)
                     .style(Style::default());
 
                 let list = List::new(list_items).block(block);
-                /*
-                                if tab_props.is_focused {
-                                    let focused_list = List::from(list)
-                                        .highlight_style(
-                                            Style::default()
-                                                .bg(self.style.selected_element_background)
-                                                .fg(self.style.selected_element_foreground),
-                                        )
-                                        .highlight_symbol(tab_props.list_arrow.as_str());
-                                    frame.render_stateful_widget(focused_list, layout[0], &mut state.tab_state);
-                                } else {
-                                    frame.render_widget(list, layout[0]);
-                                }
-                */
-                frame.render_widget(list, layout[0]);
+
+                if tab_props.is_focused {
+                    let focused_list = List::from(list)
+                        .highlight_style(
+                            Style::default()
+                                .bg(self.style.selected_element_background)
+                                .fg(self.style.selected_element_foreground),
+                        )
+                        .highlight_symbol(tab_props.list_arrow.as_str());
+
+                    frame.render_stateful_widget(focused_list, layout[0], &mut state.tab_state);
+                } else {
+                    frame.render_widget(list, layout[0]);
+                }
 
                 if (state.search_mode || state.phrase.is_empty() == false) && tab_props.is_focused {
                     let block = Block::default()

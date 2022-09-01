@@ -3,7 +3,7 @@ use tui::style::Color;
 
 #[derive(Clone, Copy, Debug)]
 pub struct ColorScheme {
-    pub foreground: Color,
+    pub foregorund: Color,
     pub background: Color,
 
     pub normal_black: Color,
@@ -23,32 +23,11 @@ pub struct ColorScheme {
     pub light_magneta: Color,
     pub light_cyan: Color,
     pub light_white: Color,
-
-    pub normal_dir_background: Color,
-    pub cursor_dir_background: Color,
-    pub select_dir_background: Color,
-    pub normal_dir_foreground: Color,
-    pub cursor_dir_foreground: Color,
-    pub select_dir_foreground: Color,
-
-    pub normal_file_background: Color,
-    pub cursor_file_background: Color,
-    pub select_file_background: Color,
-    pub normal_file_foreground: Color,
-    pub cursor_file_foreground: Color,
-    pub select_file_foreground: Color,
-
-    pub normal_link_background: Color,
-    pub cursor_link_background: Color,
-    pub select_link_background: Color,
-    pub normal_link_foreground: Color,
-    pub cursor_link_foreground: Color,
-    pub select_link_foreground: Color,
 }
 
 impl ColorScheme {
     pub fn new(
-        foreground: Color,
+        foregorund: Color,
         background: Color,
         normal_black: Color,
         normal_red: Color,
@@ -66,30 +45,9 @@ impl ColorScheme {
         light_magneta: Color,
         light_cyan: Color,
         light_white: Color,
-
-        normal_dir_background: Color,
-        cursor_dir_background: Color,
-        select_dir_background: Color,
-        normal_dir_foreground: Color,
-        cursor_dir_foreground: Color,
-        select_dir_foreground: Color,
-
-        normal_file_background: Color,
-        cursor_file_background: Color,
-        select_file_background: Color,
-        normal_file_foreground: Color,
-        cursor_file_foreground: Color,
-        select_file_foreground: Color,
-
-        normal_link_background: Color,
-        cursor_link_background: Color,
-        select_link_background: Color,
-        normal_link_foreground: Color,
-        cursor_link_foreground: Color,
-        select_link_foreground: Color,
     ) -> Self {
         Self {
-            foreground,
+            foregorund,
             background,
             normal_black,
             normal_red,
@@ -107,33 +65,12 @@ impl ColorScheme {
             light_magneta,
             light_cyan,
             light_white,
-
-            normal_dir_background,
-            cursor_dir_background,
-            select_dir_background,
-            normal_dir_foreground,
-            cursor_dir_foreground,
-            select_dir_foreground,
-
-            normal_file_background,
-            cursor_file_background,
-            select_file_background,
-            normal_file_foreground,
-            cursor_file_foreground,
-            select_file_foreground,
-
-            normal_link_background,
-            cursor_link_background,
-            select_link_background,
-            normal_link_foreground,
-            cursor_link_foreground,
-            select_link_foreground,
         }
     }
 
     pub fn update_from_file(&mut self, cfg: &Value) {
-        if let Some(foreground) = cfg.get("foreground") {
-            self.foreground = map_color(&foreground);
+        if let Some(foregorund) = cfg.get("foregorund") {
+            self.foregorund = map_color(&foregorund);
         }
 
         if let Some(background) = cfg.get("background") {
@@ -203,60 +140,6 @@ impl ColorScheme {
         if let Some(light_white) = cfg.get("light_white") {
             self.light_white = map_color(&light_white);
         }
-        if let Some(item) = cfg.get("normal_dir_background") {
-            self.normal_dir_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("cursor_dir_background") {
-            self.cursor_dir_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("select_dir_background") {
-            self.select_dir_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("normal_dir_foreground") {
-            self.normal_dir_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("cursor_dir_foreground") {
-            self.cursor_dir_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("select_dir_foreground") {
-            self.select_dir_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("normal_file_background") {
-            self.normal_file_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("cursor_file_background") {
-            self.cursor_file_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("select_file_background") {
-            self.select_file_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("normal_file_foreground") {
-            self.normal_file_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("cursor_file_foreground") {
-            self.cursor_file_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("select_file_foreground") {
-            self.select_file_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("normal_link_background") {
-            self.normal_link_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("cursor_link_background") {
-            self.cursor_link_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("select_link_background") {
-            self.select_link_background = map_color(&item);
-        }
-        if let Some(item) = cfg.get("normal_link_foreground") {
-            self.normal_link_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("cursor_link_foreground") {
-            self.cursor_link_foreground = map_color(&item);
-        }
-        if let Some(item) = cfg.get("select_link_foreground") {
-            self.select_link_foreground = map_color(&item);
-        }
     }
 }
 
@@ -314,24 +197,6 @@ impl Default for ColorScheme {
             Color::LightMagenta,
             Color::LightCyan,
             Color::White,
-            Color::Black,
-            Color::Gray,
-            Color::Green,
-            Color::White,
-            Color::White,
-            Color::Black,
-            Color::Black,
-            Color::Gray,
-            Color::Green,
-            Color::Gray,
-            Color::White,
-            Color::Black,
-            Color::Black,
-            Color::Gray,
-            Color::Green,
-            Color::Gray,
-            Color::White,
-            Color::Black,
         )
     }
 }

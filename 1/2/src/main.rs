@@ -62,28 +62,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         let state = store.get_state();
 
-        // Shapkin
-        /*
-        let props = self.base.get_props().unwrap();
-        let tab_side = props.panel_side.unwrap();
-        let tab_idx = match tab_side {
-            PanelSide::Left => state.left_panel.current_tab,
-            PanelSide::Right => state.right_panel.current_tab,
-        };
-        let tab_state = match tab_side {
-            PanelSide::Left => state.left_panel.tabs[state.left_panel.current_tab].clone(),
-            PanelSide::Right => state.right_panel.tabs[state.right_panel.current_tab].clone(),
-        };
-        */
-        /*
-        let tab_state = state.left_panel.tabs[state.left_panel.current_tab].clone();
-        println!("main test_info");
-        for item in tab_state.selected.iter() {
-            println!("{:?}", item);
-        }
-        */
-        // Shapkin
-
         if let Ok(event) = event_queue.pool() {
             if let Event::Tick = event {
                 root_component.on_tick(&mut store);

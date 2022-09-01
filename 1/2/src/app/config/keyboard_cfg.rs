@@ -40,8 +40,6 @@ pub struct KeyboardConfig {
     pub command_7: KeyBinding,
     pub command_8: KeyBinding,
     pub command_9: KeyBinding,
-
-    pub print_test_info: KeyBinding,
 }
 
 impl KeyboardConfig {
@@ -518,8 +516,6 @@ impl Default for KeyboardConfig {
             command_7: KeyBinding::new(KeyCode::Char('7')),
             command_8: KeyBinding::new(KeyCode::Char('8')),
             command_9: KeyBinding::new(KeyCode::Char('9')),
-
-            print_test_info: KeyBinding::with_modifiers(KeyCode::Char('t'), KeyModifiers::CONTROL),
         }
     }
 }
