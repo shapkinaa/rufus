@@ -2,10 +2,11 @@
 #Core configuration
 [core]
 tick_rate = 240
-use_icons = true
+use_icons = false
+# directory_first = true
 
 [color_scheme]
-foregorund = "White"
+foreground = "White"
 background = "Reset"
 normal_black = "Black"
 normal_red = "Red"
@@ -24,14 +25,31 @@ light_magneta = "LightMagenta"
 light_cyan = "LightCyan"
 light_white = "White"
 
+normal_dir_background = "Black"
+cursor_dir_background = "LightBlue"
+select_dir_background = "Green"
+normal_dir_foreground = "White"
+cursor_dir_foreground = "Yellow"
+select_dir_foreground = "Black"
+
+normal_file_background = "Black"
+cursor_file_background = "LightBlue"
+select_file_background = "Green"
+normal_file_foreground = "LightGreen"
+cursor_file_foreground = "Yellow"
+select_file_foreground = "Black"
+
+normal_link_background = "Black"
+cursor_link_background = "LightBlue"
+select_link_background = "Green"
+normal_link_foreground = "LightYellow"
+cursor_link_foreground = "Yellow"
+select_link_foreground = "Black"
+
 [keyboard_cfg]
-# quit = { key = "q", modifier = "C" }
-quit = { key = "q" }
+quit = { key = "q", modifier = "C" }
 
-# focus_left_panel = { key = "h" }
 focus_left_panel = { key = "1", modifier = "C" }
-
-# focus_right_panel = { key = "l" }
 focus_right_panel = { key = "2", modifier = "C" }
 
 move_down = { key = "j" }
@@ -41,22 +59,29 @@ move_up = { key = "k" }
 # prev_tab = { key = "T" }
 
 close = { key = "q" }
+
 open = { key = "l" }
 open_as_tab = { key = "L" }
-# navigate_up = { key = "backspace" }
+
 navigate_up = { key = "h" }
+
 delete = { key = "d" }
+
 # move_left = { key = "h", modifier = "C" }
 # move_right = { key = "l", modifier = "C" }
 move_fs_item = { key = "c" }
+
 rename = { key = "r" }
 create = { key = "n" }
 accept = { key = "enter" }
+
 # copy_to_left = { key = "z", modifier = "C" }
 # copy_to_right = { key = "x", modifier = "C" }
 copy_fs_item = { key = "y" }
+
 # search_in_panel = { key = "s", modifier = "C" }
 search_in_panel = { key = "/" }
+
 select_prev = { key = "X", modifier = "S" }
 select_next = { key = "x" }
 
