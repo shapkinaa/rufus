@@ -14,6 +14,18 @@ pub struct FileItem {
     path: PathBuf,
     last_modification: DateTime<Local>,
     icon: String,
+
+    pub created: DateTime<Local>,
+    pub modified: DateTime<Local>,
+    pub accessed: DateTime<Local>,
+    pub size: u64,
+    pub mode: u32,
+    pub inode: u64,
+    pub nlink: u64,
+    pub username: String,
+    pub groupname: String,
+    pub blocksize: u64,
+    pub blocks: u64,
 }
 
 impl FileItem {
@@ -22,12 +34,36 @@ impl FileItem {
         path: PathBuf,
         last_modification: DateTime<Local>,
         icon: String,
+
+        created: DateTime<Local>,
+        modified: DateTime<Local>,
+        accessed: DateTime<Local>,
+        size: u64,
+        mode: u32,
+        inode: u64,
+        nlink: u64,
+        username: String,
+        groupname: String,
+        blocksize: u64,
+        blocks: u64,
     ) -> Self {
         FileItem {
             name,
             path,
             last_modification,
             icon,
+
+            created,
+            modified,
+            accessed,
+            size,
+            mode,
+            inode,
+            nlink,
+            username,
+            groupname,
+            blocksize,
+            blocks,
         }
     }
 
@@ -73,9 +109,6 @@ impl ToSpans for FileItem {
             ])
         }
         */
-        Spans::from(vec![
-            Span::from("   "),
-            Span::from(self.name.clone()),
-        ])
-}
+        Spans::from(vec![Span::from("   "), Span::from(self.name.clone())])
+    }
 }

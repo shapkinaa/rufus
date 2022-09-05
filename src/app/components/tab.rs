@@ -1065,9 +1065,24 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                     .is_pressed(key_evt)
                     && props.is_focused
                 {
-                    println!("print_test_info");
                     for item in tab_state.selected.iter() {
-                        println!("{:?}", item);
+                        store.dispatch(FileManagerActions::App(AppAction::ShowModal(
+                            ModalType::MessageboxModal(format!(
+                                "Created: {}\nModified: {}\nAccessed: {}\nSize: {} bytes\n Mode: {:0}\nInode: {}\nNumber on links: {}\n(Owner:Group):{}:{}\nBlocks: {}\nNumber of block:{}",
+                                item.get_created().format("%Y-%m-%d %H:%M:%S"),
+                                item.get_modified().format("%Y-%m-%d %H:%M:%S"),
+                                item.get_accessed().format("%Y-%m-%d %H:%M:%S"),
+                                item.get_size(),
+item.get_mode(),
+item.get_inode(),
+item.get_nlink(),
+item.get_username(),
+item.get_groupname(),
+item.get_blocksize(),
+item.get_blocks(),
+                                
+                            )),
+                        )));
                     }
                     return true;
                 }

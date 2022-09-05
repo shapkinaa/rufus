@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use chrono::{DateTime, Local, NaiveDateTime, TimeZone};
 use tui::{layout::Rect, text::Spans};
 
 use crate::core::ToSpans;
@@ -66,6 +67,112 @@ impl FileSystemItem {
             FileSystemItem::File(file) => file.is_visible(),
             FileSystemItem::Symlink(_) => true,
             FileSystemItem::Unknown => false,
+        }
+    }
+
+    //        created: DateTime<Local>,
+    pub fn get_created(&self) -> DateTime<Local> {
+        match self {
+            FileSystemItem::Directory(dir) => dir.created,
+            FileSystemItem::File(file) => file.created,
+            FileSystemItem::Symlink(symlink) => symlink.created,
+            FileSystemItem::Unknown => Local
+                .datetime_from_str("1980-01-01 00:00:01", "%Y-%m-%d %H:%M:%S")
+                .unwrap(),
+        }
+    }
+    //        modified: DateTime<Local>,
+    pub fn get_modified(&self) -> DateTime<Local> {
+        match self {
+            FileSystemItem::Directory(dir) => dir.modified,
+            FileSystemItem::File(file) => file.modified,
+            FileSystemItem::Symlink(symlink) => symlink.modified,
+            FileSystemItem::Unknown => Local
+                .datetime_from_str("1980-01-01 00:00:01", "%Y-%m-%d %H:%M:%S")
+                .unwrap(),
+        }
+    }
+    //        accessed: DateTime<Local>,
+    pub fn get_accessed(&self) -> DateTime<Local> {
+        match self {
+            FileSystemItem::Directory(dir) => dir.accessed,
+            FileSystemItem::File(file) => file.accessed,
+            FileSystemItem::Symlink(symlink) => symlink.accessed,
+            FileSystemItem::Unknown => Local
+                .datetime_from_str("1980-01-01 00:00:01", "%Y-%m-%d %H:%M:%S")
+                .unwrap(),
+        }
+    }
+    //        size: u64,
+    pub fn get_size(&self) -> u64 {
+        match self {
+            FileSystemItem::Directory(dir) => dir.size,
+            FileSystemItem::File(file) => file.size,
+            FileSystemItem::Symlink(symlink) => symlink.size,
+            FileSystemItem::Unknown => 0,
+        }
+    }
+    //        mode: u32,
+    pub fn get_mode(&self) -> u32 {
+        match self {
+            FileSystemItem::Directory(dir) => dir.mode,
+            FileSystemItem::File(file) => file.mode,
+            FileSystemItem::Symlink(symlink) => symlink.mode,
+            FileSystemItem::Unknown => 0,
+        }
+    }
+    //        inode: u64,
+    pub fn get_inode(&self) -> u64 {
+        match self {
+            FileSystemItem::Directory(dir) => dir.inode,
+            FileSystemItem::File(file) => file.inode,
+            FileSystemItem::Symlink(symlink) => symlink.inode,
+            FileSystemItem::Unknown => 0,
+        }
+    }
+    //        nlink: u64,
+    pub fn get_nlink(&self) -> u64 {
+        match self {
+            FileSystemItem::Directory(dir) => dir.nlink,
+            FileSystemItem::File(file) => file.nlink,
+            FileSystemItem::Symlink(symlink) => symlink.nlink,
+            FileSystemItem::Unknown => 0,
+        }
+    }
+    //        username: String,
+    pub fn get_username(&self) -> String {
+        match self {
+            FileSystemItem::Directory(dir) => dir.username.clone(),
+            FileSystemItem::File(file) => file.username.clone(),
+            FileSystemItem::Symlink(symlink) => symlink.username.clone(),
+            FileSystemItem::Unknown => "".to_string(),
+        }
+    }
+    //        groupname: String,
+    pub fn get_groupname(&self) -> String {
+        match self {
+            FileSystemItem::Directory(dir) => dir.groupname.clone(),
+            FileSystemItem::File(file) => file.groupname.clone(),
+            FileSystemItem::Symlink(symlink) => symlink.groupname.clone(),
+            FileSystemItem::Unknown => "".to_string(),
+        }
+    }
+    //        blocksize: u64,
+    pub fn get_blocksize(&self) -> u64 {
+        match self {
+            FileSystemItem::Directory(dir) => dir.blocksize,
+            FileSystemItem::File(file) => file.blocksize,
+            FileSystemItem::Symlink(symlink) => symlink.blocksize,
+            FileSystemItem::Unknown => 0,
+        }
+    }
+    //        blocks: u64,
+    pub fn get_blocks(&self) -> u64 {
+        match self {
+            FileSystemItem::Directory(dir) => dir.blocks,
+            FileSystemItem::File(file) => file.blocks,
+            FileSystemItem::Symlink(symlink) => symlink.blocks,
+            FileSystemItem::Unknown => 0,
         }
     }
 }

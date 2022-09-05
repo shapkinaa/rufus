@@ -141,6 +141,7 @@ pub enum ModalType {
         panel_tab_path: PathBuf,
     },
     ErrorModal(String),
+    MessageboxModal(String),
     DeleteDirWithContent {
         panel_side: PanelSide,
         panel_tab: TabIdx,

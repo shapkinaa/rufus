@@ -20,6 +20,7 @@ use crate::{
 use super::{
     create_modal::{CreateModalComponent, CreateModalProps},
     error_modal::{ErrorModalComponent, ErrorModalComponentProps},
+    messagebox_modal::{MessageboxModalComponent, MessageboxModalComponentProps},
     not_empty_dir_delete_modal::{
         NotEmptyDirDeleteModalComponent, NotEmptyDirDeleteModalComponentProps,
     },
@@ -40,6 +41,7 @@ pub struct RootComponent<TFileSystem: Clone + Debug + Default + FileSystem> {
     create_modal: Option<CreateModalComponent<TFileSystem>>,
     rename_modal: Option<RenameModalComponent<TFileSystem>>,
     error_modal: Option<ErrorModalComponent<TFileSystem>>,
+    messagebox_modal: Option<MessageboxModalComponent<TFileSystem>>,
     non_empty_dir_delete_modal: Option<NotEmptyDirDeleteModalComponent<TFileSystem>>,
     _maker: std::marker::PhantomData<TFileSystem>,
 }
@@ -53,6 +55,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem> RootComponent<TFileSyste
             create_modal: None,
             rename_modal: None,
             error_modal: None,
+            messagebox_modal: None,
             non_empty_dir_delete_modal: None,
             _maker: std::marker::PhantomData,
         }
@@ -118,6 +121,17 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem> RootComponent<TFileSyste
                         self.error_modal = Some(ErrorModalComponent::with_props(
                             ErrorModalComponentProps::new(
                                 error_modal,
+                                state.config.icons.use_icons,
+                                state.config.icons.get_file_icon("warn".to_string()),
+                            ),
+                        ));
+                    }
+                }
+                ModalType::MessageboxModal(props_modal) => {
+                    if self.messagebox_modal.is_none() {
+                        self.messagebox_modal = Some(MessageboxModalComponent::with_props(
+                            MessageboxModalComponentProps::new(
+                                props_modal,
                                 state.config.icons.use_icons,
                                 state.config.icons.get_file_icon("warn".to_string()),
                             ),
@@ -221,6 +235,14 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
 
                 if let Some(ref mut error_modal) = self.error_modal {
                     let result = error_modal.handle_event(event, store);
+                    self.map_state(store);
+                    store.clean();
+
+                    return result;
+                }
+
+                if let Some(ref mut messagebox_modal) = self.messagebox_modal {
+                    let result = messagebox_modal.handle_event(event, store);
                     self.map_state(store);
                     store.clean();
 
@@ -359,14 +381,14 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
             }
         }
 
-        if let Some(ref error_modal) = self.error_modal {
+        if let Some(ref messagebox_modal) = self.messagebox_modal {
             if let Some(focused_panel) = local_state.focused_panel.clone() {
                 match focused_panel {
-                    PanelSide::Left => error_modal.render(frame, Some(layout[0])),
-                    PanelSide::Right => error_modal.render(frame, Some(layout[1])),
+                    PanelSide::Left => messagebox_modal.render(frame, Some(layout[0])),
+                    PanelSide::Right => messagebox_modal.render(frame, Some(layout[1])),
                 };
             } else {
-                error_modal.render(frame, None);
+                messagebox_modal.render(frame, None);
             }
         }
     }
