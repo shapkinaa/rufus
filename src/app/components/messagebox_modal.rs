@@ -12,7 +12,7 @@ use crate::{
 };
 use std::fmt::Debug;
 use tui::{
-    style::Style,
+    style::{Color, Style},
     text::{Span, Spans},
     widgets::{Block, BorderType, Borders, Clear, Paragraph},
 };
@@ -20,30 +20,30 @@ use tui::{
 use super::create_modal_layout;
 
 #[derive(Clone, Default)]
-pub struct ErrorModalComponentProps {
+pub struct MessageboxModalComponentProps {
     message: Option<String>,
     show_icons: bool,
-    error_icon: String,
+    messagebox_icon: String,
 }
 
-impl ErrorModalComponentProps {
-    pub fn new(message: String, show_icons: bool, error_icon: String) -> Self {
-        ErrorModalComponentProps {
+impl MessageboxModalComponentProps {
+    pub fn new(message: String, show_icons: bool, messagebox_icon: String) -> Self {
+        MessageboxModalComponentProps {
             message: Some(message),
             show_icons,
-            error_icon,
+            messagebox_icon,
         }
     }
 }
 
-pub struct ErrorModalComponent<TFileSystem: Clone + Debug + Default + FileSystem> {
-    base: ComponentBase<ErrorModalComponentProps, ()>,
+pub struct MessageboxModalComponent<TFileSystem: Clone + Debug + Default + FileSystem> {
+    base: ComponentBase<MessageboxModalComponentProps, ()>,
     _maker: std::marker::PhantomData<TFileSystem>,
 }
 
-impl<TFileSystem: Clone + Debug + Default + FileSystem> ErrorModalComponent<TFileSystem> {
-    pub fn with_props(props: ErrorModalComponentProps) -> Self {
-        ErrorModalComponent {
+impl<TFileSystem: Clone + Debug + Default + FileSystem> MessageboxModalComponent<TFileSystem> {
+    pub fn with_props(props: MessageboxModalComponentProps) -> Self {
+        MessageboxModalComponent {
             base: ComponentBase::new(Some(props), None),
             _maker: std::marker::PhantomData,
         }
@@ -52,7 +52,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem> ErrorModalComponent<TFil
 
 impl<TFileSystem: Clone + Debug + Default + FileSystem>
     Component<Event, AppState<TFileSystem>, FileManagerActions>
-    for ErrorModalComponent<TFileSystem>
+    for MessageboxModalComponent<TFileSystem>
 {
     fn handle_event(
         &mut self,
@@ -76,9 +76,9 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
         area: Option<tui::layout::Rect>,
     ) {
         let layout = if let Some(area) = area {
-            create_modal_layout(50, 10, area)
+            create_modal_layout(50, 40, area)
         } else {
-            create_modal_layout(50, 10, frame.size())
+            create_modal_layout(50, 40, frame.size())
         };
         let props = self.base.get_props().unwrap();
         let message = if let Some(message) = props.message {
@@ -89,17 +89,19 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
         let block = Block::default()
             .title(Spans::from(vec![
                 Span::from("| "),
-                Span::from("Error: (Esc to close)"),
+                Span::from("Message: (CloseKey to close)"),
                 Span::from(" |"),
             ]))
             .borders(Borders::ALL)
-            .border_style(Style::default())
+            .border_style(
+                Style::default(), // .fg(Color::Red)
+            )
             .border_type(BorderType::Thick)
             .style(Style::default());
 
         let paragraph = Paragraph::new(message)
             .block(block)
-            .alignment(tui::layout::Alignment::Center);
+            .alignment(tui::layout::Alignment::Left);
 
         frame.render_widget(Clear, layout);
         frame.render_widget(paragraph, layout);

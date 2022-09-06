@@ -598,7 +598,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                     .clone();
                                 if dir.get_path() == to_path {
                                     store.dispatch(FileManagerActions::App(AppAction::ShowModal(
-                                        ModalType::ErrorModal(format!(
+                                        ModalType::MessageboxModal(format!(
                                             "Can't move \n {} \n into \n {}",
                                             dir.get_path().to_str().unwrap_or(""),
                                             to_path.to_str().unwrap_or("")
@@ -664,7 +664,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                     .clone();
                                 if dir.get_path() == to_path {
                                     store.dispatch(FileManagerActions::App(AppAction::ShowModal(
-                                        ModalType::ErrorModal(format!(
+                                        ModalType::MessageboxModal(format!(
                                             "Can't move \n {} \n into \n {}",
                                             dir.get_path().to_str().unwrap_or(""),
                                             to_path.to_str().unwrap_or("")
@@ -728,11 +728,13 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                         .clone();
                                     if dir.get_path() == to_path {
                                         store.dispatch(FileManagerActions::App(
-                                            AppAction::ShowModal(ModalType::ErrorModal(format!(
-                                                "Can't move \n {} \n into \n {}",
-                                                dir.get_path().to_str().unwrap_or(""),
-                                                to_path.to_str().unwrap_or("")
-                                            ))),
+                                            AppAction::ShowModal(ModalType::MessageboxModal(
+                                                format!(
+                                                    "Can't move \n {} \n into \n {}",
+                                                    dir.get_path().to_str().unwrap_or(""),
+                                                    to_path.to_str().unwrap_or("")
+                                                ),
+                                            )),
                                         ));
                                     } else {
                                         to_path.push(name);
@@ -789,11 +791,13 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                         .clone();
                                     if dir.get_path() == to_path {
                                         store.dispatch(FileManagerActions::App(
-                                            AppAction::ShowModal(ModalType::ErrorModal(format!(
-                                                "Can't move \n {} \n into \n {}",
-                                                dir.get_path().to_str().unwrap_or(""),
-                                                to_path.to_str().unwrap_or("")
-                                            ))),
+                                            AppAction::ShowModal(ModalType::MessageboxModal(
+                                                format!(
+                                                    "Can't move \n {} \n into \n {}",
+                                                    dir.get_path().to_str().unwrap_or(""),
+                                                    to_path.to_str().unwrap_or("")
+                                                ),
+                                            )),
                                         ));
                                     } else {
                                         to_path.push(name);
@@ -1066,9 +1070,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                     && props.is_focused
                 {
                     for item in tab_state.selected.iter() {
-                        println!("{:?}", item);
-                        /*
-                                                store.dispatch(FileManagerActions::App(AppAction::ShowModal(
+                        store.dispatch(FileManagerActions::App(AppAction::ShowModal(
                                                     ModalType::MessageboxModal(format!(
                                                         "Created: {}\nModified: {}\nAccessed: {}\nSize: {} bytes\n Mode: {:0}\nInode: {}\nNumber on links: {}\n(Owner:Group):{}:{}\nBlocks: {}\nNumber of block:{}",
                                                         item.get_created().format("%Y-%m-%d %H:%M:%S"),
@@ -1085,7 +1087,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
 
                                                     )),
                                                 )));
-                                                */
                     }
                     return true;
                 }

@@ -45,7 +45,7 @@ fn symlink_resolver<TFileSystem: Clone + Debug + Default + FileSystem>(
                 }
             }
             Err(err) => Some(FileManagerActions::App(AppAction::ShowModal(
-                ModalType::ErrorModal(format!("{}", err)),
+                ModalType::MessageboxModal(format!("{}", err)),
             ))),
         },
         _ => Some(FileManagerActions::Symlink(symlink_action)),
