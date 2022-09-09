@@ -1,6 +1,6 @@
 use toml::Value;
 
-use crate::core::config::CoreConfig;
+use crate::core::config::{ColorsFiles, CoreConfig};
 use std::path::Path;
 
 use self::{

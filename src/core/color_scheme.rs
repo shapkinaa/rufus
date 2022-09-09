@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use toml::Value;
 use tui::style::Color;
 
@@ -334,4 +335,34 @@ impl Default for ColorScheme {
             Color::Black,
         )
     }
+}
+
+#[derive(Clone, Debug)]
+pub struct ColorsFiles {
+    pub colors_files: HashMap<String, Color>,
+}
+
+impl Default for ColorsFiles {
+    fn default() -> Self {
+        ColorsFiles {
+            colors_files: get_default_colors_files(),
+        }
+    }
+}
+impl ColorsFiles {
+    pub fn update_from_file(&mut self, cfg: &Value) {
+        if let Value::Table(values) = cfg {
+            for (key, value) in values.iter() {
+                self.colors_files.insert(
+                    key.clone(),
+                    map_color(&Value::String(value.as_str().unwrap().to_string())),
+                );
+            }
+        }
+    }
+}
+fn get_default_colors_files() -> HashMap<String, Color> {
+    let mut colors_files = HashMap::new();
+    colors_files.insert("default".to_string(), Color::White);
+    colors_files
 }

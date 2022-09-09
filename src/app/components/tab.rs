@@ -1,4 +1,7 @@
 use crossterm::event::KeyCode;
+use std::collections::HashMap;
+use std::ffi::OsStr;
+
 use std::fmt::Debug;
 use tui::{
     backend::Backend,
@@ -96,10 +99,15 @@ pub struct TabStyle {
     pub normal_link_foreground: Color,
     pub cursor_link_foreground: Color,
     pub select_link_foreground: Color,
+
+    pub colors_files: HashMap<String, Color>,
 }
 
 impl Default for TabStyle {
     fn default() -> Self {
+        let mut colors_files = HashMap::new();
+        colors_files.insert("default".to_string(), Color::White);
+
         TabStyle {
             active_border_color: Color::Blue,
             selected_element_background: Color::Red,
@@ -125,6 +133,8 @@ impl Default for TabStyle {
             normal_link_foreground: Color::Gray,
             cursor_link_foreground: Color::White,
             select_link_foreground: Color::Black,
+
+            colors_files,
         }
     }
 }
@@ -153,6 +163,8 @@ impl TabStyle {
             normal_link_foreground: config.color_scheme.normal_link_foreground,
             cursor_link_foreground: config.color_scheme.cursor_link_foreground,
             select_link_foreground: config.color_scheme.select_link_foreground,
+
+            colors_files: config.colors_files.colors_files.clone(),
         }
     }
 }
@@ -1154,16 +1166,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 .iter()
                                 .any(|i| i.get_path() == item.get_path())
                             {
-                                /*
-                                ListItem::new(
-                                    item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                )
-                                .style(
-                                    Style::default()
-                                        .bg(self.style.selected_element_background)
-                                        .fg(self.style.selected_element_foreground),
-                                )
-                                */
                                 match item {
                                     FileSystemItem::Directory(_) => ListItem::new(
                                         item.to_spans(area.unwrap_or(frame.size()), show_icons),
@@ -1199,12 +1201,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                     ),
                                 }
                             } else {
-                                /*
-                                ListItem::new(
-                                    item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                )
-                                .style(Style::default())
-                                */
                                 match item {
                                     FileSystemItem::Directory(_) => ListItem::new(
                                         item.to_spans(area.unwrap_or(frame.size()), show_icons),
@@ -1214,14 +1210,29 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                             .bg(self.style.normal_dir_background)
                                             .fg(self.style.normal_dir_foreground),
                                     ),
-                                    FileSystemItem::File(_) => ListItem::new(
-                                        item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                    )
-                                    .style(
-                                        Style::default()
-                                            .bg(self.style.normal_file_background)
-                                            .fg(self.style.normal_file_foreground),
-                                    ),
+                                    FileSystemItem::File(file) => {
+                                        let file_extension = file.get_path();
+                                        let file_extension = file_extension
+                                            .extension()
+                                            .unwrap_or(OsStr::new("default"))
+                                            .to_os_string();
+                                        let file_extension = file_extension.to_str().unwrap();
+                                        let mut fg_file = self.style.normal_file_foreground;
+                                        if let Some(color) =
+                                            self.style.colors_files.get(file_extension.clone())
+                                        {
+                                            fg_file = *color;
+                                        }
+
+                                        ListItem::new(
+                                            item.to_spans(area.unwrap_or(frame.size()), show_icons),
+                                        )
+                                        .style(
+                                            Style::default()
+                                                .bg(self.style.normal_file_background)
+                                                .fg(fg_file),
+                                        )
+                                    }
                                     FileSystemItem::Symlink(_) => ListItem::new(
                                         item.to_spans(area.unwrap_or(frame.size()), show_icons),
                                     )
@@ -1253,16 +1264,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                 .iter()
                                 .any(|i| i.get_path() == item.get_path())
                             {
-                                /*
-                                ListItem::new(
-                                    item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                )
-                                .style(
-                                    Style::default()
-                                        .bg(self.style.selected_element_background)
-                                        .fg(self.style.selected_element_foreground),
-                                )
-                                */
                                 match item {
                                     FileSystemItem::Directory(_) => ListItem::new(
                                         item.to_spans(area.unwrap_or(frame.size()), show_icons),
@@ -1298,11 +1299,6 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                                     ),
                                 }
                             } else {
-                                /*
-                                ListItem::new(
-                                    item.to_spans(area.unwrap_or(frame.size()), show_icons),
-                                )
-                                */
                                 match item {
                                     FileSystemItem::Directory(_) => ListItem::new(
                                         item.to_spans(area.unwrap_or(frame.size()), show_icons),
