@@ -46,6 +46,31 @@ normal_link_foreground = "LightYellow"
 cursor_link_foreground = "Yellow"
 select_link_foreground = "Black"
 
+[colors_files]
+# ".gitignore" = ""
+# ".gitmodules" = ""
+rs = "LightYellow"
+# cs = ""
+# cpp = "ﭱ"
+# c = ""
+# hpp = ""
+# h = ""
+# js = ""
+# ts = ""
+# jsx = ""
+# tsx = "ﰆ"
+# html = ""
+# css = ""
+# sass = ""
+toml = "Red"
+# yaml = ""
+# php = ""
+# py = ""
+# rb = ""
+# java = ""
+# lock = ""
+default = "White"
+
 [keyboard_cfg]
 quit = { key = "q", modifier = "C" }
 
