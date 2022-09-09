@@ -1081,10 +1081,25 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                     .is_pressed(key_evt)
                     && props.is_focused
                 {
+                    /*
+                    store.dispatch(FileManagerActions::App(AppAction::ShowModal(
+                        ModalType::MessageboxModal(String::new("message")),
+                    )));
+                    */
+                    println!("{:?}", state.config.keyboard_cfg);
+                    return true;
+                }
+                if state
+                    .config
+                    .keyboard_cfg
+                    .filesystem_item_props
+                    .is_pressed(key_evt)
+                    && props.is_focused
+                {
                     for item in tab_state.selected.iter() {
                         store.dispatch(FileManagerActions::App(AppAction::ShowModal(
                                                     ModalType::MessageboxModal(format!(
-                                                        "Created: {}\nModified: {}\nAccessed: {}\nSize: {} bytes\n Mode: {:0}\nInode: {}\nNumber on links: {}\n(Owner:Group):{}:{}\nBlocks: {}\nNumber of block:{}",
+                                                        "Created: {}\nModified: {}\nAccessed: {}\nSize: {} bytes\n Mode: {:0}\nInode: {}\nNumber on links: {}\n(Owner:Group): {}:{}\nBlocks: {}\nNumber of block: {}",
                                                         item.get_created().format("%Y-%m-%d %H:%M:%S"),
                                                         item.get_modified().format("%Y-%m-%d %H:%M:%S"),
                                                         item.get_accessed().format("%Y-%m-%d %H:%M:%S"),

@@ -42,6 +42,14 @@ pub struct KeyboardConfig {
     pub command_9: KeyBinding,
 
     pub print_test_info: KeyBinding,
+    pub filesystem_item_props: KeyBinding,
+
+    pub sort_by_name_asc: KeyBinding,
+    pub sort_by_name_desc: KeyBinding,
+    pub sort_by_date_asc: KeyBinding,
+    pub sort_by_date_desc: KeyBinding,
+    pub sort_by_attr_asc: KeyBinding,
+    pub sort_by_attr_desc: KeyBinding,
 }
 
 impl KeyboardConfig {
@@ -476,6 +484,101 @@ impl KeyboardConfig {
                         self.command_9 = KeyBinding::with_modifiers(key_code, modifier);
                     }
                 }
+                /*
+                pub sort_by_name_asc: KeyBinding,
+                pub sort_by_name_desc: KeyBinding,
+                pub sort_by_date_asc: KeyBinding,
+                pub sort_by_date_desc: KeyBinding,
+                pub sort_by_attr_asc: KeyBinding,
+                pub sort_by_attr_desc: KeyBinding,
+                            */
+                if let Some(command_string) = keyboard_cfg.get("sort_by_name_asc") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.sort_by_name_asc = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("sort_by_name_desc") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.sort_by_name_desc = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+
+                if let Some(command_string) = keyboard_cfg.get("sort_by_date_asc") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.sort_by_date_asc = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("sort_by_date_desc") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.sort_by_date_desc = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+
+                if let Some(command_string) = keyboard_cfg.get("sort_by_attr_asc") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.sort_by_attr_asc = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+                if let Some(command_string) = keyboard_cfg.get("sort_by_attr_desc") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.sort_by_attr_desc = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
+
+                if let Some(command_string) = keyboard_cfg.get("filesystem_item_props") {
+                    if let Value::Table(key_binding) = command_string {
+                        let key_code = map_key(key_binding["key"].as_str().unwrap());
+                        let modifier = if key_binding.contains_key("modifier") {
+                            map_modifier(key_binding["modifier"].as_str().unwrap())
+                        } else {
+                            KeyModifiers::empty()
+                        };
+
+                        self.filesystem_item_props = KeyBinding::with_modifiers(key_code, modifier);
+                    }
+                }
             }
         }
     }
@@ -519,7 +622,16 @@ impl Default for KeyboardConfig {
             command_8: KeyBinding::new(KeyCode::Char('8')),
             command_9: KeyBinding::new(KeyCode::Char('9')),
 
+            sort_by_name_asc: KeyBinding::new(KeyCode::F(1)),
+            sort_by_name_desc: KeyBinding::with_modifiers(KeyCode::F(1), KeyModifiers::CONTROL),
+            sort_by_date_asc: KeyBinding::new(KeyCode::F(2)),
+            sort_by_date_desc: KeyBinding::with_modifiers(KeyCode::F(2), KeyModifiers::CONTROL),
+            sort_by_attr_asc: KeyBinding::new(KeyCode::F(3)),
+            sort_by_attr_desc: KeyBinding::with_modifiers(KeyCode::F(3), KeyModifiers::CONTROL),
+
             print_test_info: KeyBinding::with_modifiers(KeyCode::Char('t'), KeyModifiers::CONTROL),
+
+            filesystem_item_props: KeyBinding::new(KeyCode::Char('i')),
         }
     }
 }

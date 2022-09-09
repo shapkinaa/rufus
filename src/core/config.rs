@@ -44,12 +44,7 @@ impl CoreConfig {
             self.color_scheme.update_from_file(color_scheme);
         }
         if let Some(colors_files) = cfg.get("colors_files") {
-            println!("colors_files update_from_file");
             self.colors_files.update_from_file(colors_files);
-            for item in self.colors_files.colors_files.iter() {
-                println!("{:?}", item);
-            }
-            println!("colors_files update_from_file");
         }
     }
 }
