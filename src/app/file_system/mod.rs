@@ -1,5 +1,6 @@
 use std::{
     cmp,
+    cmp::Reverse,
     fs::{self, File},
     path::Path,
 };
@@ -10,7 +11,8 @@ use self::{
     functions::{create_link, map_dir_entry_to_file_system_item},
 };
 
-use super::config::icon_cfg::IconsConfig;
+use super::config::tab_config::SortEnum;
+use super::config::Config;
 
 pub mod dir_item;
 pub mod file_item;
@@ -21,7 +23,7 @@ pub mod symlink_item;
 pub trait FileSystem {
     fn exist<TPath: AsRef<Path>>(&self, path: TPath) -> bool;
     fn get_dir_info<TPath: AsRef<Path>>(&self, path: TPath) -> Option<DirInfo>;
-    fn list_dir<TPath: AsRef<Path>>(&self, path: TPath, icons: &IconsConfig)
+    fn list_dir<TPath: AsRef<Path>>(&self, path: TPath, big_config: &Config)
         -> Vec<FileSystemItem>;
     fn read_to_string<TPath: AsRef<Path>>(&self, path: TPath) -> Option<String>;
     fn delete_file<TPath: AsRef<Path>>(&mut self, path: TPath) -> io::Result<()>;
@@ -50,27 +52,91 @@ impl FileSystem for PhysicalFileSystem {
     fn list_dir<TPath: AsRef<Path>>(
         &self,
         path: TPath,
-        icons: &IconsConfig,
+        big_config: &Config,
     ) -> Vec<FileSystemItem> {
         match fs::read_dir(path) {
             Ok(mut iter) => {
                 let mut result = Vec::new();
                 while let Some(load_result) = iter.next() {
                     if let Ok(dir_entry) = load_result {
-                        result.push(map_dir_entry_to_file_system_item(dir_entry, icons));
+                        result.push(map_dir_entry_to_file_system_item(
+                            dir_entry,
+                            &big_config.icons,
+                        ));
                     }
                 }
-
-                result.sort_by(|one, two| one.get_name().cmp(&two.get_name()));
-                /*
-                result.sort_by(|one, two| {
-                    match one.is_file().cmp(&two.is_file()) {
-                        cmp::Ordering::Equal => one.get_name().cmp(&two.get_name()),
-                        other => other
+                if big_config.tab_config.directory_first {
+                    match big_config.tab_config.sort_by_name {
+                        SortEnum::ASC => {
+                            result.sort_by(|one, two| match one.is_file().cmp(&two.is_file()) {
+                                cmp::Ordering::Equal => one.get_name().cmp(&two.get_name()),
+                                other => other,
+                            });
+                            return result;
+                        }
+                        SortEnum::DESC => {
+                            result.sort_by_key(|w| (w.is_file(), std::cmp::Reverse(w.get_name())));
+                            return result;
+                        }
+                        SortEnum::NONE => {}
                     }
-                });
-                */
-
+                    match big_config.tab_config.sort_by_attr {
+                        SortEnum::ASC => {
+                            result.sort_by(|one, two| match one.is_file().cmp(&two.is_file()) {
+                                cmp::Ordering::Equal => one.get_size().cmp(&two.get_size()),
+                                other => other,
+                            });
+                        }
+                        SortEnum::DESC => {
+                            result.sort_by_key(|w| (w.is_file(), std::cmp::Reverse(w.get_size())));
+                            return result;
+                        }
+                        SortEnum::NONE => {}
+                    }
+                    match big_config.tab_config.sort_by_date {
+                        SortEnum::ASC => {
+                            result.sort_by(|one, two| match one.is_file().cmp(&two.is_file()) {
+                                cmp::Ordering::Equal => one.get_modified().cmp(&two.get_modified()),
+                                other => other,
+                            });
+                        }
+                        SortEnum::DESC => {
+                            result.sort_by_key(|w| {
+                                (w.is_file(), std::cmp::Reverse(w.get_modified()))
+                            });
+                            return result;
+                        }
+                        SortEnum::NONE => {}
+                    }
+                } else {
+                    match big_config.tab_config.sort_by_date {
+                        SortEnum::ASC => {
+                            result.sort_by(|one, two| one.get_modified().cmp(&two.get_modified()));
+                        }
+                        SortEnum::DESC => {
+                            result.sort_by_key(|w| std::cmp::Reverse(w.get_modified()));
+                        }
+                        SortEnum::NONE => {}
+                    }
+                    match big_config.tab_config.sort_by_name {
+                        SortEnum::ASC => {
+                            result.sort_by(|one, two| one.get_name().cmp(&two.get_name()));
+                        }
+                        SortEnum::DESC => {
+                            result.sort_by_key(|w| std::cmp::Reverse(w.get_name()));
+                        }
+                        SortEnum::NONE => {}
+                    }
+                    match big_config.tab_config.sort_by_attr {
+                        SortEnum::ASC => {
+                            result.sort_by(|one, two| one.get_size().cmp(&two.get_size()));
+                        }
+                        SortEnum::DESC => {
+                            result.sort_by_key(|w| std::cmp::Reverse(w.get_size()));
+                        }
+                        SortEnum::NONE => {}
+                    }
+                }
                 result
             }
             Err(_) => Vec::new(),

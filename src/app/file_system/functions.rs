@@ -12,7 +12,7 @@ use std::{
     path::{Path, PathBuf},
     time::SystemTime,
 };
-use users::{get_current_uid, get_group_by_gid, get_user_by_uid};
+use users::{get_group_by_gid, get_user_by_uid};
 
 use chrono::{DateTime, Local};
 

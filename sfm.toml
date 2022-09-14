@@ -3,8 +3,12 @@
 [core]
 tick_rate = 240
 use_icons = false
-# directory_first = true
+directory_first = true
 
+sort_by_name = "asc"
+sort_by_date = "none"
+sort_by_attr = "none"
+  
 [color_scheme]
 foreground = "White"
 background = "Reset"
@@ -47,31 +51,23 @@ cursor_link_foreground = "Yellow"
 select_link_foreground = "Black"
 
 [colors_files]
-# ".gitignore" = ""
-# ".gitmodules" = ""
-rs = "LightYellow"
-# cs = ""
-# cpp = "ﭱ"
-# c = ""
-# hpp = ""
-# h = ""
-# js = ""
-# ts = ""
-# jsx = ""
-# tsx = "ﰆ"
-# html = ""
-# css = ""
-# sass = ""
+# extension = "Color"
+# Example: html = "Green"
+rs = "Red"
 toml = "Red"
-# yaml = ""
-# php = ""
-# py = ""
-# rb = ""
-# java = ""
-# lock = ""
 default = "White"
 
 [keyboard_cfg]
+# keybindings
+# function = keybinding
+# keybinding:
+# key - one per line
+# possible keys - chars + digits
+# modifier - one per line
+# possible modifiers - C (Control), A (Alt), S (Shift)
+
+# Examples:
+# quit = { key = "q", modifier = "C" }
 quit = { key = "q", modifier = "C" }
 
 focus_left_panel = { key = "1", modifier = "C" }
@@ -79,9 +75,6 @@ focus_right_panel = { key = "2", modifier = "C" }
 
 move_down = { key = "j" }
 move_up = { key = "k" }
-
-# next_tab = { key = "T" }
-# prev_tab = { key = "T" }
 
 close = { key = "q" }
 
@@ -92,19 +85,14 @@ navigate_up = { key = "h" }
 
 delete = { key = "d" }
 
-# move_left = { key = "h", modifier = "C" }
-# move_right = { key = "l", modifier = "C" }
 move_fs_item = { key = "c" }
 
 rename = { key = "r" }
 create = { key = "n" }
 accept = { key = "enter" }
 
-# copy_to_left = { key = "z", modifier = "C" }
-# copy_to_right = { key = "x", modifier = "C" }
 copy_fs_item = { key = "y" }
 
-# search_in_panel = { key = "s", modifier = "C" }
 search_in_panel = { key = "/" }
 
 select_prev = { key = "X", modifier = "S" }
@@ -117,35 +105,14 @@ command_1 = { key = "H", modifier = "S" }
 # go to projects
 command_2 = { key = "P", modifier = "S" }
 
-# [icons_dir]
-# ".git" = ""
-# node_modules = ""
-# default = ""
+sort_by_name_asc = { key = "f1"}
+sort_by_name_desc = { key = "f1", modifier = "C" }
+sort_by_date_asc = { key = "f2"}
+sort_by_date_desc = { key = "f2", modifier = "C" }
+sort_by_attr_asc = { key = "f3"}
+sort_by_attr_desc = { key = "f3", modifier = "C" }
 
-# [icons_files]
-# ".gitignore" = ""
-# ".gitmodules" = ""
-# rs = ""
-# cs = ""
-# cpp = "ﭱ"
-# c = ""
-# hpp = ""
-# h = ""
-# js = ""
-# ts = ""
-# jsx = ""
-# tsx = "ﰆ"
-# html = ""
-# css = ""
-# sass = ""
-# toml = ""
-# yaml = ""
-# php = ""
-# py = ""
-# rb = ""
-# java = ""
-# lock = ""
-# default = ""
+filesystem_item_props = { key = "i" }
 
 [file_associated_programs]
 default = "open"

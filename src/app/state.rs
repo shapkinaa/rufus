@@ -30,7 +30,7 @@ pub struct AppState<TFileSystem: Clone + Debug + Default + FileSystem> {
 
 impl<TFileSystem: Clone + Debug + Default + FileSystem> AppState<TFileSystem> {
     pub fn new(config: Config, file_system: TFileSystem) -> Self {
-        let mut state = AppState::default();
+        let mut state = AppState::set_default(&config);
         state.file_system = file_system;
         state.config = config;
 
@@ -43,6 +43,19 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem> Default for AppState<TFi
         AppState {
             left_panel: PanelState::default(),
             right_panel: PanelState::default(),
+            app_exit: false,
+            config: Config::default(),
+            child_program: None,
+            modal: None,
+            file_system: TFileSystem::default(),
+        }
+    }
+}
+impl<TFileSystem: Clone + Debug + Default + FileSystem> AppState<TFileSystem> {
+    fn set_default(config: &Config) -> Self {
+        AppState {
+            left_panel: PanelState::set_default(config),
+            right_panel: PanelState::set_default(config),
             app_exit: false,
             config: Config::default(),
             child_program: None,
@@ -70,7 +83,16 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem> Default for PanelState<T
         }
     }
 }
-
+impl<TFileSystem: Clone + Debug + Default + FileSystem> PanelState<TFileSystem> {
+    fn set_default(config: &Config) -> Self {
+        PanelState {
+            tabs: vec![TabState::set_default(config)],
+            is_focused: false,
+            current_tab: 0,
+            marker: std::marker::PhantomData,
+        }
+    }
+}
 #[derive(Clone, Debug)]
 pub struct TabState<TFileSystem: Clone + Debug + Default + FileSystem> {
     pub name: String,
@@ -86,21 +108,23 @@ pub struct TabState<TFileSystem: Clone + Debug + Default + FileSystem> {
 
 impl<TFileSystem: Clone + Debug + Default + FileSystem> Default for TabState<TFileSystem> {
     fn default() -> Self {
-        TabState::with_dir(
-            &Path::new("."),
-            &TFileSystem::default(),
-            &IconsConfig::default(),
-        )
+        TabState::with_dir(&Path::new("."), &TFileSystem::default(), &Config::default())
+    }
+}
+impl<TFileSystem: Clone + Debug + Default + FileSystem> TabState<TFileSystem> {
+    fn set_default(config: &Config) -> Self {
+        TabState::with_dir(&Path::new("."), &TFileSystem::default(), &config)
     }
 }
 
 impl<TFileSystem: Clone + Debug + Default + FileSystem> TabState<TFileSystem> {
-    pub fn with_dir(dir_path: &Path, file_system: &TFileSystem, icons: &IconsConfig) -> Self {
+    //pub fn with_dir(dir_path: &Path, file_system: &TFileSystem, icons: &IconsConfig) -> Self {
+    pub fn with_dir(dir_path: &Path, file_system: &TFileSystem, big_config: &Config) -> Self {
         let dir_info = DirInfo::new(&dir_path).unwrap();
-        let items = file_system.list_dir(&dir_info.path, icons);
+        let items = file_system.list_dir(&dir_info.path, &big_config);
         TabState {
             name: dir_info.name.clone(),
-            icon: icons.get_dir_icon(dir_info.name.clone()),
+            icon: big_config.icons.get_dir_icon(dir_info.name.clone()),
             path: dir_info.path.clone(),
             items,
             selected: Vec::new(),

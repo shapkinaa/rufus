@@ -1,6 +1,7 @@
 use crate::app::{
     actions::{DirectoryAction, PanelInfo, PanelSide},
     config::icon_cfg::IconsConfig,
+    config::Config,
     file_system::FileSystem,
     state::{AppState, PanelState, TabIdx, TabState},
 };
@@ -38,7 +39,7 @@ fn copy_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -47,7 +48,7 @@ fn copy_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -61,7 +62,7 @@ fn copy_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -70,7 +71,7 @@ fn copy_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -91,7 +92,7 @@ fn delete_dir_with_content<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -100,7 +101,7 @@ fn delete_dir_with_content<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.clone(),
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -113,7 +114,7 @@ fn delete_dir_with_content<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -122,7 +123,7 @@ fn delete_dir_with_content<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.clone(),
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -145,7 +146,7 @@ fn create_directory<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -154,7 +155,7 @@ fn create_directory<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.as_path(),
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -168,7 +169,7 @@ fn create_directory<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -177,7 +178,7 @@ fn create_directory<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.as_path(),
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -199,7 +200,7 @@ fn open_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     current_tabs.push(TabState::with_dir(
                         panel.path.as_path(),
                         &state.file_system,
-                        &state.config.icons,
+                        &state.config,
                     ));
 
                     current_tabs
@@ -209,7 +210,7 @@ fn open_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                         panel.tab,
                         state.left_panel.tabs,
                         &state.file_system,
-                        &state.config.icons,
+                        &state.config,
                     )
                 },
                 ..state.left_panel
@@ -223,7 +224,7 @@ fn open_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     current_tabs.push(TabState::with_dir(
                         panel.path.as_path(),
                         &state.file_system,
-                        &state.config.icons,
+                        &state.config,
                     ));
 
                     current_tabs
@@ -233,7 +234,7 @@ fn open_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                         panel.tab,
                         state.right_panel.tabs,
                         &state.file_system,
-                        &state.config.icons,
+                        &state.config,
                     )
                 },
                 ..state.right_panel
@@ -257,7 +258,7 @@ fn rename_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -266,7 +267,7 @@ fn rename_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -280,7 +281,7 @@ fn rename_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -289,7 +290,7 @@ fn rename_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -310,7 +311,7 @@ fn delete_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -319,7 +320,7 @@ fn delete_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.clone(),
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -332,7 +333,7 @@ fn delete_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -341,7 +342,7 @@ fn delete_dir<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.clone(),
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -356,7 +357,8 @@ fn copy_dir_to_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     current_tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
 
@@ -366,7 +368,8 @@ fn copy_dir_to_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                 Ok(_) => result.push(TabState::with_dir(
                     tab_state.path.as_path(),
                     file_system,
-                    icons,
+                    //icons,
+                    big_config,
                 )),
                 Err(_) => {}
             }
@@ -383,7 +386,8 @@ fn open_dir_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     current_tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
 
@@ -397,11 +401,13 @@ fn open_dir_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                 result.push(TabState::with_dir(
                     item.get_path().as_path(),
                     file_system,
-                    icons,
+                    //icons,
+                    big_config,
                 ));
             } else {
                 if path.exists() {
-                    result.push(TabState::with_dir(path.as_path(), file_system, icons));
+                    //result.push(TabState::with_dir(path.as_path(), file_system, icons));
+                    result.push(TabState::with_dir(path.as_path(), file_system, big_config));
                 } else {
                     result.push(val.clone());
                 }
@@ -420,7 +426,8 @@ fn rename_dir_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     current_tab: TabIdx,
     tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
 
@@ -430,13 +437,15 @@ fn rename_dir_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                 Ok(_) => result.push(TabState::with_dir(
                     tab_state.path.as_path(),
                     file_system,
-                    icons,
+                    //icons,
+                    big_config,
                 )),
                 Err(_) => result.push(TabState::with_dir(
                     //TODO: temporary fix add proper error handling in reducers
                     tab_state.path.as_path(),
                     file_system,
-                    icons,
+                    //icons,
+                    big_config,
                 )),
             }
         } else {
@@ -452,7 +461,8 @@ fn delete_dir_from_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     current_tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
 
@@ -465,7 +475,12 @@ fn delete_dir_from_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
             if let Some(item) = dir_to_delete {
                 match file_system.delete_empty_dir(&item.get_path()) {
                     Ok(_) => {
-                        result.push(TabState::with_dir(val.path.as_path(), file_system, icons))
+                        //result.push(TabState::with_dir(val.path.as_path(), file_system, icons))
+                        result.push(TabState::with_dir(
+                            val.path.as_path(),
+                            file_system,
+                            big_config,
+                        ))
                     }
                     Err(_) => {}
                 }
@@ -485,7 +500,8 @@ fn delete_dir_with_content_from_tab<TFileSystem: Clone + Debug + Default + FileS
     current_tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
 
@@ -498,7 +514,12 @@ fn delete_dir_with_content_from_tab<TFileSystem: Clone + Debug + Default + FileS
             if let Some(item) = dir_to_delete {
                 match file_system.delete_dir(&item.get_path()) {
                     Ok(_) => {
-                        result.push(TabState::with_dir(val.path.as_path(), file_system, icons))
+                        //result.push(TabState::with_dir(val.path.as_path(), file_system, icons))
+                        result.push(TabState::with_dir(
+                            val.path.as_path(),
+                            file_system,
+                            big_config,
+                        ))
                     }
                     Err(_) => {}
                 }
@@ -518,7 +539,8 @@ fn create_directory_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
     for (idx, val) in tabs.iter_mut().enumerate() {
@@ -531,7 +553,8 @@ fn create_directory_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                     Ok(_) => result.push(TabState::with_dir(
                         parent_path.as_path(),
                         file_system,
-                        icons,
+                        //icons,
+                        big_config,
                     )),
                     Err(_) => {}
                 };

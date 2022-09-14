@@ -5,7 +5,7 @@ use std::path::Path;
 
 use self::{
     commands::HotkeyCommandsPrograms, icon_cfg::IconsConfig, keyboard_cfg::KeyboardConfig,
-    program_associations::FileAssociatedPrograms,
+    program_associations::FileAssociatedPrograms, tab_config::TabConfig,
 };
 
 use super::file_system::{functions::expand_if_contains_tilde, FileSystem};
@@ -14,6 +14,7 @@ pub mod commands;
 pub mod icon_cfg;
 pub mod keyboard_cfg;
 pub mod program_associations;
+pub mod tab_config;
 
 #[derive(Debug, Clone)]
 pub struct Config {
@@ -22,6 +23,7 @@ pub struct Config {
     pub icons: IconsConfig,
     pub file_associated_programs: FileAssociatedPrograms,
     pub hotkey_commands_programs: HotkeyCommandsPrograms,
+    pub tab_config: TabConfig,
 }
 
 impl Default for Config {
@@ -32,6 +34,7 @@ impl Default for Config {
             icons: IconsConfig::default(),
             file_associated_programs: FileAssociatedPrograms::default(),
             hotkey_commands_programs: HotkeyCommandsPrograms::default(),
+            tab_config: TabConfig::default(),
         }
     }
 }
@@ -51,6 +54,7 @@ impl Config {
                 cfg.core_cfg.update_from_file(&toml_mapped_values);
                 cfg.hotkey_commands_programs
                     .update_from_file(&toml_mapped_values);
+                cfg.tab_config.update_from_file(&toml_mapped_values);
             }
         }
         cfg

@@ -1,6 +1,7 @@
 use super::{
     actions::{AppAction, FileManagerActions},
-    config::icon_cfg::IconsConfig,
+    //config::icon_cfg::IconsConfig,
+    config::Config,
     file_system::FileSystem,
     state::{AppState, PanelState, TabIdx, TabState},
 };
@@ -90,7 +91,8 @@ fn reload_tab<TFileSystem: Clone + Default + Debug + FileSystem>(
     tab: TabIdx,
     tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons_cfg: &IconsConfig,
+    //icons_cfg: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
     for (idx, tab_state) in tabs.iter().enumerate() {
@@ -98,7 +100,8 @@ fn reload_tab<TFileSystem: Clone + Default + Debug + FileSystem>(
             result.push(TabState::with_dir(
                 tab_state.path.as_path(),
                 file_system,
-                icons_cfg,
+                &big_config,
+                //icons_cfg,
             ));
         } else {
             result.push(tab_state.clone());
@@ -112,7 +115,8 @@ fn reload_tab_with_path<TFileSystem: Clone + Default + Debug + FileSystem>(
     tab_path: &Path,
     tabs: Vec<TabState<TFileSystem>>,
     file_system: &TFileSystem,
-    icons_cfg: &IconsConfig,
+    //icons_cfg: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
     for tab_state in tabs.iter() {
@@ -120,7 +124,8 @@ fn reload_tab_with_path<TFileSystem: Clone + Default + Debug + FileSystem>(
             result.push(TabState::with_dir(
                 tab_state.path.as_path(),
                 file_system,
-                icons_cfg,
+                //icons_cfg,
+                &big_config,
             ));
         } else {
             result.push(tab_state.clone());
@@ -134,7 +139,8 @@ fn reload_tab_contain_item<TFileSystem: Clone + Default + Debug + FileSystem>(
     path: PathBuf,
     tabs: Vec<TabState<TFileSystem>>,
     file_system: &TFileSystem,
-    icons_cfg: &IconsConfig,
+    //icons_cfg: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
     for tab_state in tabs.iter() {
@@ -142,7 +148,8 @@ fn reload_tab_contain_item<TFileSystem: Clone + Default + Debug + FileSystem>(
             tab_state,
             path.clone(),
             file_system,
-            icons_cfg,
+            //icons_cfg,
+            &big_config,
         ));
     }
 
@@ -153,10 +160,12 @@ fn reload_if_contain<TFileSystem: Clone + Default + Debug + FileSystem>(
     tab_state: &TabState<TFileSystem>,
     path: PathBuf,
     file_system: &TFileSystem,
-    icons_cfg: &IconsConfig,
+    //icons_cfg: &IconsConfig,
+    big_config: &Config,
 ) -> TabState<TFileSystem> {
     if tab_state.items.iter().any(|i| i.get_path() == path) {
-        TabState::with_dir(tab_state.path.as_path(), file_system, icons_cfg)
+        //TabState::with_dir(tab_state.path.as_path(), file_system, icons_cfg)
+        TabState::with_dir(tab_state.path.as_path(), file_system, &big_config)
     } else {
         tab_state.clone()
     }

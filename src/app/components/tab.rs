@@ -1086,7 +1086,7 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                         ModalType::MessageboxModal(String::new("message")),
                     )));
                     */
-                    println!("{:?}", state.config.keyboard_cfg);
+                    println!("{:?}", state.config.tab_config);
                     return true;
                 }
                 if state

@@ -33,7 +33,7 @@ fn reload_state_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                     path.as_ref(),
                     state.left_panel.tabs,
                     &state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -45,7 +45,7 @@ fn reload_state_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                     path.as_ref(),
                     state.right_panel.tabs,
                     &state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },

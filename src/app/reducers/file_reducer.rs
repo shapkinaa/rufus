@@ -3,7 +3,8 @@ use std::{ffi::OsStr, path::PathBuf};
 
 use crate::app::{
     actions::{FileAction, PanelInfo, PanelSide},
-    config::{icon_cfg::IconsConfig, program_associations::FileAssociatedPrograms},
+    //config::{icon_cfg::IconsConfig, program_associations::FileAssociatedPrograms, Config},
+    config::{program_associations::FileAssociatedPrograms, Config},
     file_system::{file_system_item::FileSystemItem, FileSystem},
     state::{AppState, ChildProgramDesc, PanelState, TabIdx, TabState},
 };
@@ -38,7 +39,7 @@ fn copy_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -47,7 +48,7 @@ fn copy_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -61,7 +62,7 @@ fn copy_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -70,7 +71,7 @@ fn copy_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -93,7 +94,7 @@ fn create_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -102,7 +103,7 @@ fn create_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.as_path(),
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -116,7 +117,7 @@ fn create_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -125,7 +126,7 @@ fn create_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.as_path(),
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -156,7 +157,7 @@ fn delete_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -165,7 +166,7 @@ fn delete_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.clone(),
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -178,7 +179,7 @@ fn delete_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -187,7 +188,7 @@ fn delete_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     panel.path.clone(),
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -210,7 +211,7 @@ fn rename_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.left_panel
             },
@@ -219,7 +220,7 @@ fn rename_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -233,7 +234,7 @@ fn rename_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     to.tab,
                     state.right_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -242,7 +243,7 @@ fn rename_file<TFileSystem: Clone + Debug + Default + FileSystem>(
                     from.tab,
                     state.left_panel.tabs,
                     &mut state.file_system,
-                    &state.config.icons,
+                    &state.config,
                 ),
                 ..state.right_panel
             },
@@ -257,7 +258,8 @@ fn create_file_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
     for (idx, tab_state) in tabs.iter_mut().enumerate() {
@@ -267,7 +269,12 @@ fn create_file_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                 file_path.push(file_name.clone());
                 match file_system.create_file(&file_path) {
                     Ok(_) => {
-                        result.push(TabState::with_dir(dir_path.as_path(), file_system, icons))
+                        //result.push(TabState::with_dir(dir_path.as_path(), file_system, icons))
+                        result.push(TabState::with_dir(
+                            dir_path.as_path(),
+                            file_system,
+                            big_config,
+                        ))
                     }
                     Err(_) => {}
                 }
@@ -303,7 +310,8 @@ fn delete_file_from_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     current_tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
 
@@ -319,7 +327,8 @@ fn delete_file_from_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                         Ok(_) => result.push(TabState::with_dir(
                             tab_state.path.as_path(),
                             file_system,
-                            icons,
+                            //icons,
+                            big_config,
                         )),
                         Err(_) => {} //TODO: add error handling to state
                     }
@@ -343,7 +352,8 @@ fn copy_file_to_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     current_tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
     for (idx, tab_state) in tabs.iter_mut().enumerate() {
@@ -352,7 +362,8 @@ fn copy_file_to_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                 Ok(_) => result.push(TabState::with_dir(
                     tab_state.path.as_path(),
                     file_system,
-                    icons,
+                    //icons,
+                    big_config,
                 )),
                 Err(_) => {}
             }
@@ -370,7 +381,8 @@ fn rename_file_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
     current_tab: TabIdx,
     mut tabs: Vec<TabState<TFileSystem>>,
     file_system: &mut TFileSystem,
-    icons: &IconsConfig,
+    //icons: &IconsConfig,
+    big_config: &Config,
 ) -> Vec<TabState<TFileSystem>> {
     let mut result = Vec::<TabState<TFileSystem>>::new();
     for (idx, tab_state) in tabs.iter_mut().enumerate() {
@@ -379,7 +391,8 @@ fn rename_file_in_tab<TFileSystem: Clone + Debug + Default + FileSystem>(
                 Ok(_) => result.push(TabState::with_dir(
                     tab_state.path.as_path(),
                     file_system,
-                    icons,
+                    //icons,
+                    big_config,
                 )),
                 Err(_) => {} //TODO: add error handling to state
             }
