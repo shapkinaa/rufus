@@ -27,6 +27,13 @@ impl Default for TabConfig {
         }
     }
 }
+/*
+impl TabConfig {
+    pub fn set_sort_by_name(&mut self, sort: SortEnum) {
+        self.sort_by_name = sort.clone();
+    }
+}
+*/
 
 fn get_bool_by_name(cfg: &Value, section: String, name: String) -> Value {
     if let Some(core) = cfg.get(section) {

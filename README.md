@@ -1,4 +1,4 @@
-# sfm - simple file manager
+# rufus - simple file manager
 
 > Simple two-panel file manager written in Rust inspired by vim and Total Commander
 
@@ -57,7 +57,7 @@ In order to get icons please install nerd font in your system (on screen Jetbrai
 
 ## Configuration File
 
-Configuration file should be named `sfm.toml` and should be placed in `~/` or `~/.config` directories.
+Configuration file should be named `rufus.toml` and should be placed in `~/` or `~/.config` directories.
 
 - ### [core] section
 
@@ -132,10 +132,10 @@ Configuration file should be named `sfm.toml` and should be placed in `~/` or `~
     - `copy_to_left = { key = "z", modifier = "C" }`
 
 - ### [icons_dir] section
-  - In order to see icons you need nerd font patch. See in sfm.toml in repo root.
+  - In order to see icons you need nerd font patch. See in rufus.toml in repo root.
 - ### [icons_files] section
 
-  - In order to see icons you need nerd font patch. See in sfm.toml in repo root.
+  - In order to see icons you need nerd font patch. See in rufus.toml in repo root.
 
 - ### [file_associated_programs] section
   - Key value pair with file extension and programs in default config all files will be opened in `vi`
@@ -146,6 +146,6 @@ Configuration file should be named `sfm.toml` and should be placed in `~/` or `~
 - Via Cargo
 
 ```bash
-cargo install sfm
+cargo install rufus
 
 ```

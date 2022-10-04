@@ -25,8 +25,10 @@ use crossterm::{
 use tui::{backend::CrosstermBackend, Terminal};
 
 lazy_static! {
-    static ref CONFIG_PATHS: Vec<String> =
-        vec!["~/sfm.toml".to_string(), "~/.config/sfm.toml".to_string()];
+    static ref CONFIG_PATHS: Vec<String> = vec![
+        "~/rufus.toml".to_string(),
+        "~/.config/rufus.toml".to_string()
+    ];
 }
 
 pub mod app;

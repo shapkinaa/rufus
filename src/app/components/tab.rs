@@ -19,6 +19,7 @@ use crate::{
             AppAction, DirectoryAction, FileAction, FileManagerActions, PanelInfo, PanelSide,
             SearchAction, SymlinkAction, TabAction,
         },
+        // config::tab_config::SortEnum,
         file_system::{file_system_item::FileSystemItem, FileSystem},
         state::{AppState, ModalType, TabState},
     },
@@ -1117,6 +1118,26 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                     }
                     return true;
                 }
+                /*
+                                if state
+                                    .config
+                                    .keyboard_cfg
+                                    .sort_by_name_asc
+                                    .is_pressed(key_evt)
+                                    && props.is_focused
+                                {
+                                    state.config.tab_config.sort_by_attr = SortEnum::NONE;
+                                    state.config.tab_config.sort_by_date = SortEnum::NONE;
+                                    match state.config.tab_config.sort_by_name {
+                                        SortEnum::ASC => state.config.tab_config.sort_by_name = SortEnum::DESC,
+                                        SortEnum::DESC => state.config.tab_config.sort_by_name = SortEnum::NONE,
+                                        SortEnum::NONE => state.config.tab_config.sort_by_name = SortEnum::ASC,
+                                    }
+                                    //store.st
+                                    println!("{:?}", state.config.tab_config.sort_by_name);
+                                    return true;
+                                }
+                */
                 if tab_state.selected.len() == 1 || tab_state.tab_state.selected().is_none() {
                     if let Some(current_item) = self.current_item() {
                         if state.config.keyboard_cfg.rename.is_pressed(key_evt) && props.is_focused
@@ -1380,21 +1401,18 @@ impl<TFileSystem: Clone + Debug + Default + FileSystem>
                     .style(Style::default());
 
                 let list = List::new(list_items).block(block);
-                /*
-                                if tab_props.is_focused {
-                                    let focused_list = List::from(list)
-                                        .highlight_style(
-                                            Style::default()
-                                                .bg(self.style.selected_element_background)
-                                                .fg(self.style.selected_element_foreground),
-                                        )
-                                        .highlight_symbol(tab_props.list_arrow.as_str());
-                                    frame.render_stateful_widget(focused_list, layout[0], &mut state.tab_state);
-                                } else {
-                                    frame.render_widget(list, layout[0]);
-                                }
-                */
-                frame.render_widget(list, layout[0]);
+                if tab_props.is_focused {
+                    let focused_list = List::from(list)
+                        .highlight_style(
+                            Style::default()
+                                .bg(self.style.selected_element_background)
+                                .fg(self.style.selected_element_foreground),
+                        )
+                        .highlight_symbol(tab_props.list_arrow.as_str());
+                    frame.render_stateful_widget(focused_list, layout[0], &mut state.tab_state);
+                } else {
+                    frame.render_widget(list, layout[0]);
+                }
 
                 if (state.search_mode || state.phrase.is_empty() == false) && tab_props.is_focused {
                     let block = Block::default()
